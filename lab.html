@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Angle Lab - Angle Detectives</title>
+  <title>Drag the Arm - Angle Detectives</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,9 +11,9 @@
   <!-- Header Navigation -->
   <header class="site-header">
     <div class="header-content">
-      <a href="index.html" class="back-link">⬅ Back to Home</a>
-      <h1 class="logo">🧪 Angle Lab</h1>
-      <p class="tagline">Change the angle slider and see what happens!</p>
+      <a href="index.html" class="back-link">🏠 Home</a>
+      <h1 class="logo">🧪 Drag the Arm</h1>
+      <p class="tagline">Drag the red dot to change the angle.</p>
     </div>
   </header>
 
@@ -22,48 +22,35 @@
 
     <section class="lab-card">
       <div class="lab-header">
-        <h2>Interactive Angle Machine</h2>
-        <p>Drag the slider below to change the angle degrees, or click a quick preset button!</p>
-      </div>
-
-      <!-- Preset Buttons -->
-      <div class="preset-buttons">
-        <button class="preset-btn" data-angle="30">30° (Acute)</button>
-        <button class="preset-btn" data-angle="60">60° (Acute)</button>
-        <button class="preset-btn" data-angle="90">90° (Right Angle)</button>
-        <button class="preset-btn" data-angle="120">120° (Obtuse)</button>
-        <button class="preset-btn" data-angle="150">150° (Obtuse)</button>
-      </div>
-
-      <!-- Slider Controls -->
-      <div class="slider-control-group">
-        <label for="angle-range">Angle Size: <span id="angle-deg-display" class="highlight-deg">90°</span></label>
-        <input type="range" id="angle-range" min="10" max="170" value="90" step="1" class="angle-slider">
+        <h2>Drag the Arm</h2>
+        <p class="instruction-text">Drag the red dot to change the angle.</p>
       </div>
 
       <!-- Live Visualizer -->
       <div class="lab-visualizer" id="lab-visualizer-box">
-        <svg viewBox="0 0 200 200" id="lab-svg" class="lab-svg">
-          <!-- Fixed Baseline -->
-          <line x1="100" y1="150" x2="180" y2="150" class="lab-line-base" />
-          <!-- Rotating Arm -->
-          <line x1="100" y1="150" x2="20" y2="150" id="lab-rotating-arm" class="lab-line-arm" />
-          <!-- Angle Indicator Arc or Square -->
+        <svg viewBox="0 0 300 300" id="lab-svg" class="lab-svg" aria-label="Interactive angle visualizer">
+          <!-- Fixed Baseline (horizontal arm extending right from vertex) -->
+          <line x1="150" y1="210" x2="260" y2="210" class="lab-line-base" />
+          <!-- Angle Indicator Arc or Square Marker at Vertex -->
           <path id="lab-angle-indicator" d="" class="lab-indicator-path" />
+          <!-- Rotating Arm -->
+          <line x1="150" y1="210" x2="150" y2="100" id="lab-rotating-arm" class="lab-line-arm" />
           <!-- Vertex Circle -->
-          <circle cx="100" cy="150" r="6" class="vertex-dot" />
+          <circle cx="150" cy="210" r="7" class="vertex-dot" />
+          <!-- Interactive Red Dot Handle at the end of the rotating arm -->
+          <circle cx="150" cy="100" r="16" id="drag-handle" class="drag-handle" role="button" aria-label="Drag handle to adjust angle" />
         </svg>
 
-        <!-- Dynamic Type Pill -->
+        <!-- Dynamic Type Label -->
         <div id="lab-type-badge" class="type-badge badge-green">
-          Right Angle (90°)
+          Right angle
         </div>
       </div>
 
       <!-- Information Explanation -->
       <div class="lab-info-box" id="lab-info-box">
-        <h3 id="lab-info-title">It's a Right Angle!</h3>
-        <p id="lab-info-desc">A right angle is exactly 90 degrees. It forms a perfect square corner!</p>
+        <h3 id="lab-info-title">Right angle</h3>
+        <p id="lab-info-desc">A right angle forms a perfect square corner!</p>
       </div>
 
     </section>
