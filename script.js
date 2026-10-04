@@ -1,7 +1,7 @@
 /**
  * ============================================================================
  * ANGLE DETECTIVES - JAVASCRIPT CONTROLLER
- * Fully commented script for interactivity across Lab and Quiz pages.
+ * Fully commented script for interactivity across Lab, Quiz, and Real-Life pages.
  * ============================================================================
  */
 
@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize Quiz logic if on quiz.html page
   if (document.getElementById('options-grid')) {
     initAngleQuiz();
+  }
+
+  // Initialize Angles Around Us logic if on real-life.html page
+  if (document.getElementById('reallife-svg')) {
+    initAnglesAroundUs();
   }
 });
 
@@ -1157,4 +1162,235 @@ function initAngleQuiz() {
 
   // Initial Quiz Load
   loadQuestion();
+}
+
+/* ============================================================================
+   SECTION 3: ANGLES AROUND US INTERACTION
+   ============================================================================ */
+
+/**
+ * Data for 6 hidden everyday objects with clear, non-degree angles.
+ */
+const realLifeSpotData = {
+  window: {
+    title: 'Window Frame Corner',
+    icon: '🪟',
+    correctType: 'right',
+    explanation: 'A window corner forms a square right angle like the letter L.',
+    closeUpSvg: `
+      <svg viewBox="0 0 120 120" class="angle-svg" aria-label="Window corner right angle diagram">
+        <path d="M 20,20 L 20,100 L 100,100" class="angle-line green-stroke" />
+        <rect x="20" y="80" width="20" height="20" class="square-marker green-stroke" />
+        <circle cx="20" cy="100" r="5" class="vertex-dot" />
+      </svg>
+    `
+  },
+  book: {
+    title: 'Book Corner',
+    icon: '📖',
+    correctType: 'right',
+    explanation: 'The corner of a book forms a perfect square right angle.',
+    closeUpSvg: `
+      <svg viewBox="0 0 120 120" class="angle-svg" aria-label="Book corner right angle diagram">
+        <path d="M 20,20 L 20,100 L 100,100" class="angle-line green-stroke" />
+        <rect x="20" y="80" width="20" height="20" class="square-marker green-stroke" />
+        <circle cx="20" cy="100" r="5" class="vertex-dot" />
+      </svg>
+    `
+  },
+  pizza: {
+    title: 'Pizza Slice Tip',
+    icon: '🍕',
+    correctType: 'acute',
+    explanation: 'The tip of a pizza slice is small and sharp, making an acute angle.',
+    closeUpSvg: `
+      <svg viewBox="0 0 120 120" class="angle-svg" aria-label="Pizza slice acute angle diagram">
+        <path d="M 90,20 L 20,100 L 100,85" class="angle-line blue-stroke" />
+        <path d="M 40,100 A 20 20 0 0 0 38,82" class="arc-marker blue-stroke" />
+        <circle cx="20" cy="100" r="5" class="vertex-dot" />
+      </svg>
+    `
+  },
+  scissors: {
+    title: 'Open Scissors',
+    icon: '✂️',
+    correctType: 'acute',
+    explanation: 'The open blades of scissors form a sharp acute angle.',
+    closeUpSvg: `
+      <svg viewBox="0 0 120 120" class="angle-svg" aria-label="Open scissors acute angle diagram">
+        <path d="M 95,25 L 20,100 L 105,75" class="angle-line blue-stroke" />
+        <path d="M 40,100 A 20 20 0 0 0 38,82" class="arc-marker blue-stroke" />
+        <circle cx="20" cy="100" r="5" class="vertex-dot" />
+      </svg>
+    `
+  },
+  roof: {
+    title: 'Playhouse Roof Peak',
+    icon: '🏠',
+    correctType: 'obtuse',
+    explanation: 'The roof slants wide to let rain slide off, forming an obtuse angle.',
+    closeUpSvg: `
+      <svg viewBox="0 0 120 120" class="angle-svg" aria-label="Roof peak obtuse angle diagram">
+        <path d="M 15,80 L 60,30 L 105,80" class="angle-line orange-stroke" />
+        <path d="M 72,43 A 20 20 0 0 1 48,43" class="arc-marker orange-stroke" />
+        <circle cx="60" cy="30" r="5" class="vertex-dot" />
+      </svg>
+    `
+  },
+  ladder: {
+    title: 'Ladder Base',
+    icon: '🪜',
+    correctType: 'acute',
+    explanation: 'The ladder leans steeply against the wall, creating a sharp acute angle with the ground.',
+    closeUpSvg: `
+      <svg viewBox="0 0 120 120" class="angle-svg" aria-label="Ladder base acute angle diagram">
+        <path d="M 30,20 L 100,100 L 20,100" class="angle-line blue-stroke" />
+        <path d="M 80,100 A 20 20 0 0 0 85,82" class="arc-marker blue-stroke" />
+        <circle cx="100" cy="100" r="5" class="vertex-dot" />
+      </svg>
+    `
+  }
+};
+
+/**
+ * Controller for Angles Around Us game.
+ */
+function initAnglesAroundUs() {
+  const spots = document.querySelectorAll('.pulse-spot-group');
+  const foundCountDisplay = document.getElementById('angles-found-count');
+  const totalCountDisplay = document.getElementById('angles-total-count');
+
+  // Question Modal Elements
+  const angleModal = document.getElementById('angle-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalTitle = document.getElementById('modal-title');
+  const modalIcon = document.getElementById('modal-object-icon');
+  const modalVisualBox = document.getElementById('modal-visual-box');
+  const modalOptBtns = document.querySelectorAll('.modal-opt-btn');
+  const modalFeedback = document.getElementById('modal-feedback');
+  const feedbackExplanation = document.getElementById('feedback-explanation');
+  const modalNextBtn = document.getElementById('modal-next-btn');
+
+  // Completion Modal Elements
+  const completionModal = document.getElementById('completion-modal');
+  const playAgainBtn = document.getElementById('play-again-btn');
+  const reflectionInput = document.getElementById('reflection-input');
+
+  const totalSpots = Object.keys(realLifeSpotData).length;
+  let foundSpots = new Set();
+  let currentActiveSpotKey = null;
+
+  if (totalCountDisplay) {
+    totalCountDisplay.textContent = totalSpots;
+  }
+
+  /**
+   * Resets and closes the question modal.
+   */
+  function closeModal() {
+    angleModal.classList.add('hidden');
+    currentActiveSpotKey = null;
+  }
+
+  /**
+   * Opens question modal for target spot key.
+   */
+  function openModal(spotKey) {
+    const spot = realLifeSpotData[spotKey];
+    if (!spot) return;
+
+    currentActiveSpotKey = spotKey;
+
+    modalTitle.textContent = spot.title;
+    modalIcon.textContent = spot.icon;
+    modalVisualBox.innerHTML = spot.closeUpSvg;
+
+    // Reset option buttons
+    modalOptBtns.forEach(btn => {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    });
+
+    // Hide feedback section initially
+    modalFeedback.classList.add('hidden');
+
+    angleModal.classList.remove('hidden');
+  }
+
+  /**
+   * Handles user tapping an angle type button inside the modal.
+   */
+  function handleOptionClick(selectedType) {
+    if (!currentActiveSpotKey) return;
+    const spot = realLifeSpotData[currentActiveSpotKey];
+
+    // Disable buttons to lock answer
+    modalOptBtns.forEach(btn => btn.disabled = true);
+
+    const isCorrect = (selectedType === spot.correctType);
+
+    if (isCorrect) {
+      feedbackExplanation.textContent = `🎉 Correct! ${spot.explanation}`;
+      modalFeedback.style.backgroundColor = '#dcfce7';
+      feedbackExplanation.style.color = '#166534';
+
+      // Mark spot as found if not already
+      if (!foundSpots.has(currentActiveSpotKey)) {
+        foundSpots.add(currentActiveSpotKey);
+        const spotEl = document.querySelector(`.pulse-spot-group[data-spot="${currentActiveSpotKey}"]`);
+        if (spotEl) {
+          spotEl.classList.add('found');
+        }
+        foundCountDisplay.textContent = foundSpots.size;
+      }
+    } else {
+      feedbackExplanation.textContent = `💡 Not quite! ${spot.explanation}`;
+      modalFeedback.style.backgroundColor = '#fee2e2';
+      feedbackExplanation.style.color = '#991b1b';
+    }
+
+    modalFeedback.classList.remove('hidden');
+  }
+
+  // Attach event listeners to pulsing spots
+  spots.forEach(spotEl => {
+    spotEl.addEventListener('click', () => {
+      const spotKey = spotEl.dataset.spot;
+      openModal(spotKey);
+    });
+  });
+
+  // Attach event listeners to answer buttons
+  modalOptBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const answer = btn.dataset.answer;
+      handleOptionClick(answer);
+    });
+  });
+
+  // Modal Next / Continue button
+  modalNextBtn.addEventListener('click', () => {
+    closeModal();
+    // Check if all spots found
+    if (foundSpots.size === totalSpots) {
+      setTimeout(() => {
+        completionModal.classList.remove('hidden');
+      }, 300);
+    }
+  });
+
+  // Modal Close X button
+  modalCloseBtn.addEventListener('click', closeModal);
+
+  // Play Again / Reset button
+  playAgainBtn.addEventListener('click', () => {
+    foundSpots.clear();
+    foundCountDisplay.textContent = '0';
+    if (reflectionInput) reflectionInput.value = '';
+
+    spots.forEach(spotEl => spotEl.classList.remove('found'));
+
+    completionModal.classList.add('hidden');
+    closeModal();
+  });
 }

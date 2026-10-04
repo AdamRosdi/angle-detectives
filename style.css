@@ -998,56 +998,380 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   7. REAL-LIFE PAGE STYLES
+   7. REAL-LIFE / ANGLES AROUND US PAGE STYLES
    -------------------------------------------------------------------------- */
-.reallife-hero {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.reallife-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.reallife-card {
+.game-card {
   background: var(--card-bg);
   border-radius: var(--border-radius-lg);
   padding: 1.5rem;
-  text-align: center;
   box-shadow: var(--box-shadow-soft);
-  transition: transform 0.3s ease;
-  border-top: 6px solid #cbd5e1;
+  margin-bottom: 2rem;
 }
 
-.reallife-card:hover {
-  transform: translateY(-5px);
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  background-color: #f8fafc;
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius-md);
+  border: 2px solid #e2e8f0;
 }
 
-.reallife-card.right-border { border-top-color: var(--right-angle-color); }
-.reallife-card.acute-border { border-top-color: var(--acute-angle-color); }
-.reallife-card.obtuse-border { border-top-color: var(--obtuse-angle-color); }
-
-.reallife-icon {
-  font-size: 3.2rem;
-  margin-bottom: 0.5rem;
+.game-instructions h2 {
+  font-size: 1.5rem;
+  color: var(--text-dark);
 }
 
-.reallife-card h3 {
-  font-size: 1.4rem;
-  margin-bottom: 0.3rem;
-}
-
-.reallife-desc {
-  font-size: 0.95rem;
+.game-instructions p {
+  font-size: 1.05rem;
   color: var(--text-muted);
-  margin-bottom: 0.8rem;
-  min-height: 40px;
+}
+
+.counter-box {
+  background-color: #ffffff;
+  border: 3px solid var(--acute-angle-color);
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.counter-icon {
+  font-size: 1.4rem;
+}
+
+.counter-text strong {
+  color: var(--acute-angle-dark);
+  font-size: 1.4rem;
+}
+
+/* Scene SVG Container */
+.scene-container {
+  width: 100%;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border: 3px solid #cbd5e1;
+}
+
+.scene-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Pulsing Spot Indicators */
+.pulse-spot-group {
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.2s ease;
+}
+
+.pulse-spot-group:hover {
+  transform: scale(1.2);
+}
+
+.pulse-ring {
+  fill: #ff4757;
+  opacity: 0.6;
+  animation: pulse 1.8s infinite ease-out;
+  transform-origin: center;
+}
+
+.spot-center {
+  fill: #ff4757;
+  stroke: #ffffff;
+  stroke-width: 3;
+  filter: drop-shadow(0px 2px 5px rgba(0,0,0,0.3));
+  transition: fill 0.3s ease;
+}
+
+.spot-icon {
+  font-size: 14px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Found state for target spots */
+.pulse-spot-group.found .pulse-ring {
+  animation: none;
+  fill: var(--right-angle-color);
+  opacity: 0.4;
+  r: 20;
+}
+
+.pulse-spot-group.found .spot-center {
+  fill: var(--right-angle-color);
+}
+
+@keyframes pulse {
+  0% {
+    r: 12;
+    opacity: 0.8;
+  }
+  70% {
+    r: 32;
+    opacity: 0;
+  }
+  100% {
+    r: 32;
+    opacity: 0;
+  }
 }
 
 /* --------------------------------------------------------------------------
-   8. ANIMATIONS & RESPONSIVE DESIGN (PHONE & TABLET)
+   8. MODAL DIALOGS (POP-UP & COMPLETION)
+   -------------------------------------------------------------------------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modal-card {
+  background-color: #ffffff;
+  border-radius: var(--border-radius-lg);
+  padding: 1.8rem;
+  max-width: 550px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+  text-align: center;
+  border: 4px solid #cbd5e1;
+}
+
+.modal-close-x {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50%;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.modal-close-x:hover {
+  color: #e74c3c;
+  background-color: #f1f5f9;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.modal-icon {
+  font-size: 2.2rem;
+}
+
+.modal-header h3 {
+  font-size: 1.8rem;
+  color: var(--text-dark);
+}
+
+.modal-visual-box {
+  width: 180px;
+  height: 160px;
+  margin: 0.8rem auto 1.2rem;
+  background-color: #f8fafc;
+  border-radius: var(--border-radius-md);
+  border: 2px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.modal-question {
+  font-size: 1.35rem;
+  font-weight: bold;
+  color: var(--text-dark);
+  margin-bottom: 1.2rem;
+}
+
+/* Modal 3 Answer Buttons */
+.modal-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.modal-opt-btn {
+  border-radius: var(--border-radius-md);
+  padding: 1rem 0.8rem;
+  font-family: inherit;
+  cursor: pointer;
+  border: 3px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 75px; /* Touch friendly */
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-opt-btn:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.modal-opt-btn:disabled {
+  opacity: 0.75;
+  cursor: default;
+}
+
+/* Specific Angle Colors for Answer Buttons */
+.btn-right-angle {
+  background-color: var(--right-angle-color);
+  border-color: var(--right-angle-dark);
+}
+
+.btn-acute-angle {
+  background-color: var(--acute-angle-color);
+  border-color: var(--acute-angle-dark);
+}
+
+.btn-obtuse-angle {
+  background-color: var(--obtuse-angle-color);
+  border-color: var(--obtuse-angle-dark);
+}
+
+.opt-badge {
+  font-size: 0.75rem;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.opt-text {
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+
+/* Modal Feedback Area */
+.modal-feedback {
+  background-color: #f1f5f9;
+  border-radius: var(--border-radius-md);
+  padding: 1.2rem;
+  margin-top: 1rem;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-feedback-text {
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+/* Completion Card & Reflection Box */
+.completion-card {
+  max-width: 600px;
+  border-color: var(--right-angle-color);
+  background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+}
+
+.completion-header h2 {
+  font-size: 2.2rem;
+  color: var(--right-angle-dark);
+  margin-bottom: 0.3rem;
+}
+
+.completion-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.reflection-box {
+  background-color: #ffffff;
+  border: 2px stroke #cbd5e1;
+  border: 2px dashed var(--acute-angle-color);
+  border-radius: var(--border-radius-md);
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.reflection-box h3 {
+  font-size: 1.25rem;
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.reflection-label {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--acute-angle-dark);
+  margin-bottom: 0.8rem;
+}
+
+.reflection-textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: var(--border-radius-sm);
+  border: 2px solid #cbd5e1;
+  font-family: inherit;
+  font-size: 1.05rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.reflection-textarea:focus {
+  border-color: var(--acute-angle-color);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.reflection-note {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+.completion-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   9. ANIMATIONS & RESPONSIVE DESIGN (PHONE & TABLET)
    -------------------------------------------------------------------------- */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -1076,4 +1400,10 @@ body {
   .badge-result { font-size: 1.1rem; padding: 0.6rem 1.2rem; }
   .quiz-actions { flex-direction: column; width: 100%; }
   .action-btn { width: 100%; }
+
+  /* Real-Life Game Mobile Adjustments */
+  .game-header { flex-direction: column; text-align: center; }
+  .counter-box { width: 100%; justify-content: center; }
+  .modal-options-grid { grid-template-columns: 1fr; }
+  .completion-actions { flex-direction: column; width: 100%; }
 }
