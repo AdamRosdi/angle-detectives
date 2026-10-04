@@ -1073,11 +1073,22 @@ body {
 .pulse-spot-group {
   cursor: pointer;
   touch-action: manipulation;
-  transition: transform 0.2s ease;
 }
 
-.pulse-spot-group:hover {
-  transform: scale(1.2);
+.hit-area {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.spot-icon-wrapper {
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.15s ease;
+}
+
+.pulse-spot-group:hover .spot-icon-wrapper {
+  transform: scale(1.1);
 }
 
 .pulse-ring {
