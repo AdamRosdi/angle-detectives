@@ -107,6 +107,39 @@
       </div>
     </section>
 
+    <!-- Triangle Builder Section -->
+    <section class="lab-card triangle-section" id="triangle-section">
+      <div class="lab-header">
+        <h2>Triangle Builder</h2>
+        <p class="instruction-text">Drag the red dots to change the triangle shape!</p>
+      </div>
+
+      <div class="lab-visualizer triangle-visualizer-box" id="triangle-visualizer-box">
+        <svg viewBox="0 0 300 300" id="triangle-svg" class="lab-svg" aria-label="Interactive triangle builder">
+          <!-- Triangle Fill / Polygon -->
+          <polygon id="triangle-polygon" points="150,50 60,250 240,250" class="triangle-polygon" />
+          <!-- Angle Arc Indicators -->
+          <path id="triangle-arc-0" d="" class="triangle-angle-arc" />
+          <path id="triangle-arc-1" d="" class="triangle-angle-arc" />
+          <path id="triangle-arc-2" d="" class="triangle-angle-arc" />
+          <!-- Vertex Handles -->
+          <circle id="triangle-handle-0" cx="150" cy="50" r="16" class="drag-handle triangle-handle" data-index="0" role="button" aria-label="Drag vertex 1 handle" />
+          <circle id="triangle-handle-1" cx="60" cy="250" r="16" class="drag-handle triangle-handle" data-index="1" role="button" aria-label="Drag vertex 2 handle" />
+          <circle id="triangle-handle-2" cx="240" cy="250" r="16" class="drag-handle triangle-handle" data-index="2" role="button" aria-label="Drag vertex 3 handle" />
+        </svg>
+
+        <!-- Live Labels -->
+        <div class="triangle-labels">
+          <div id="triangle-angles-label" class="type-badge badge-blue">
+            3 acute angles
+          </div>
+          <div id="triangle-name-label" class="type-badge badge-green">
+            Isosceles
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
