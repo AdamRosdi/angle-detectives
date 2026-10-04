@@ -496,6 +496,251 @@ body {
 }
 
 /* --------------------------------------------------------------------------
+   5b. SORT THE ANGLES SECTION STYLES
+   -------------------------------------------------------------------------- */
+.sort-section {
+  margin-top: 2rem;
+}
+
+.sort-status-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.sort-score-box {
+  font-size: 1.3rem;
+  font-weight: bold;
+  background-color: #f1f5f9;
+  padding: 0.6rem 1.4rem;
+  border-radius: 20px;
+}
+
+.sort-message {
+  padding: 0.8rem 1.4rem;
+  border-radius: var(--border-radius-md);
+  font-size: 1.15rem;
+  font-weight: bold;
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.sort-message.error {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 2px solid #ffebaa;
+}
+
+.sort-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 2px solid #c3e6cb;
+}
+
+.sort-completion {
+  background: linear-gradient(135deg, #e0f2fe 0%, #dcfce7 100%);
+  border: 3px solid var(--right-angle-color);
+  border-radius: var(--border-radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.sort-completion h3 {
+  font-size: 2rem;
+  color: #166534;
+  margin: 0.3rem 0;
+}
+
+.sort-completion p {
+  font-size: 1.2rem;
+  color: #15803d;
+  margin-bottom: 1rem;
+}
+
+/* Drop Boxes Container */
+.drop-boxes-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.drop-box {
+  background-color: #f8fafc;
+  border: 3px dashed #cbd5e1;
+  border-radius: var(--border-radius-lg);
+  padding: 1rem 0.6rem;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.25s ease;
+}
+
+.drop-box.right-box {
+  border-color: var(--right-angle-color);
+  background-color: rgba(46, 204, 113, 0.05);
+}
+
+.drop-box.acute-box {
+  border-color: var(--acute-angle-color);
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+.drop-box.obtuse-box {
+  border-color: var(--obtuse-angle-color);
+  background-color: rgba(243, 156, 18, 0.05);
+}
+
+.drop-box.drag-over {
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+}
+
+.drop-box.right-box.drag-over {
+  background-color: rgba(46, 204, 113, 0.2);
+}
+
+.drop-box.acute-box.drag-over {
+  background-color: rgba(52, 152, 219, 0.2);
+}
+
+.drop-box.obtuse-box.drag-over {
+  background-color: rgba(243, 156, 18, 0.2);
+}
+
+.drop-box-header {
+  margin-bottom: 0.8rem;
+}
+
+.box-badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 1.05rem;
+}
+
+.drop-box-content {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+/* Draggable Cards Pool & Cards */
+.sort-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+  min-height: 160px;
+  padding: 1.2rem;
+  background-color: #f1f5f9;
+  border-radius: var(--border-radius-lg);
+  border: 2px solid #e2e8f0;
+}
+
+.angle-card {
+  width: 130px;
+  height: 130px;
+  background-color: #ffffff;
+  border: 3px solid #cbd5e1;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  cursor: grab;
+  touch-action: none; /* Crucial for touch dragging via Pointer Events */
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  z-index: 10;
+}
+
+.angle-card:hover:not(.dragging):not(.placed) {
+  transform: translateY(-4px);
+  border-color: #3b82f6;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.angle-card.dragging {
+  cursor: grabbing;
+  z-index: 1000 !important;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  transform: scale(1.08);
+  opacity: 0.95;
+  transition: none !important; /* Instant response during drag */
+}
+
+.angle-card.bouncing {
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+}
+
+.angle-card.placed {
+  width: 90px;
+  height: 90px;
+  cursor: default;
+  box-shadow: none;
+  border-width: 2px;
+  margin: 2px;
+}
+
+.angle-card.placed.placed-right {
+  border-color: var(--right-angle-color);
+  background-color: #f0fdf4;
+}
+
+.angle-card.placed.placed-acute {
+  border-color: var(--acute-angle-color);
+  background-color: #f0f9ff;
+}
+
+.angle-card.placed.placed-obtuse {
+  border-color: var(--obtuse-angle-color);
+  background-color: #fffbebfb;
+}
+
+.angle-card svg {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Mobile responsive styling for Sort section */
+@media (max-width: 768px) {
+  .drop-boxes-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .drop-box {
+    min-height: 140px;
+  }
+
+  .angle-card {
+    width: 110px;
+    height: 110px;
+  }
+
+  .angle-card.placed {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* --------------------------------------------------------------------------
    6. QUIZ PAGE STYLES (Large, Touch-friendly & Responsive)
    -------------------------------------------------------------------------- */
 .quiz-card {
