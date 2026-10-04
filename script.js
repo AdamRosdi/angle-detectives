@@ -988,9 +988,9 @@ const quizQuestions = [
     svg: `
       <svg viewBox="0 0 200 180" class="angle-svg" aria-label="A triangle shape">
         <polygon points="30,140 170,140 110,40" fill="rgba(243, 156, 18, 0.08)" stroke="#2c3e50" stroke-width="4" stroke-linejoin="round" />
-        <path d="M 85,140 A 25 25 0 0 0 95,115" class="arc-marker orange-stroke" />
         <path d="M 55,140 A 25 25 0 0 0 45,118" class="arc-marker blue-stroke" />
         <path d="M 145,140 A 25 25 0 0 1 156,118" class="arc-marker blue-stroke" />
+        <path d="M 94.4,59.5 A 25 25 0 0 0 122.9,61.4" class="arc-marker blue-stroke" />
       </svg>
     `,
     options: ["True", "False"],

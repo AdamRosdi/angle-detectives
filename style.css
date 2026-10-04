@@ -102,7 +102,7 @@ body.modal-open {
   font-size: 1.05rem;
   margin-bottom: 0.8rem;
   transition: all 0.2s ease;
-  min-height: 44px; /* Touch friendly */
+  min-height: 3rem; /* 48px Touch friendly */
   display: inline-flex;
   align-items: center;
 }
@@ -495,6 +495,10 @@ body.modal-open {
   color: var(--text-dark);
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 3rem; /* 48px */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .preset-btn:hover {
@@ -621,10 +625,6 @@ body.modal-open {
   border-radius: var(--border-radius-md);
   background-color: #f1f5f9;
   transition: background-color 0.3s ease;
-  max-height: 85vh;
-  max-height: 85dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .lab-info-box h3 {
@@ -662,10 +662,6 @@ body.modal-open {
   font-weight: bold;
   text-align: center;
   animation: fadeIn 0.3s ease-in-out;
-  max-height: 85vh;
-  max-height: 85dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .sort-message.error {
@@ -688,10 +684,6 @@ body.modal-open {
   margin-bottom: 1.5rem;
   text-align: center;
   animation: fadeIn 0.4s ease-in-out;
-  max-height: 85vh;
-  max-height: 85dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .sort-completion h3 {
@@ -1007,7 +999,7 @@ body.modal-open {
   color: var(--text-dark);
   cursor: pointer;
   transition: all 0.2s ease;
-  min-height: 60px; /* Highly touch-friendly */
+  min-height: 3.75rem; /* 60px - Highly touch-friendly */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1039,61 +1031,36 @@ body.modal-open {
 
 .quiz-feedback {
   text-align: center;
-  padding: 1.2rem 1.2rem 0;
+  padding: 1.2rem;
   border-radius: var(--border-radius-md);
   margin-top: 1.5rem;
   animation: fadeIn 0.3s ease-in-out;
-  max-height: 85vh;
-  max-height: 85dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
 .modal-feedback {
   background-color: #f1f5f9;
   border-radius: var(--border-radius-md);
-  padding: 1.2rem 1.2rem 0;
+  padding: 1.2rem;
   margin-top: 1rem;
   animation: fadeIn 0.3s ease-in-out;
-  max-height: 85vh;
-  max-height: 85dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
-  position: relative;
 }
 
 .feedback-text {
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .feedback-footer {
-  position: sticky;
-  bottom: 0;
-  background: inherit;
-  background-color: inherit;
-  padding: 0.8rem 0;
-  margin-top: auto;
-  z-index: 10;
+  padding-top: 0.8rem;
+  margin-top: 0.5rem;
   width: 100%;
   display: flex;
   justify-content: center;
-  border-bottom-left-radius: inherit;
-  border-bottom-right-radius: inherit;
-}
-
-#quiz-feedback .feedback-footer {
-  background-color: inherit;
-}
-
-#modal-feedback .feedback-footer {
-  background-color: #f1f5f9;
 }
 
 .action-btn {
@@ -1110,7 +1077,7 @@ body.modal-open {
   cursor: pointer;
   text-decoration: none;
   transition: all 0.2s ease;
-  min-height: 50px; /* Touch friendly */
+  min-height: 3.125rem; /* 50px - Touch friendly (min 48px) */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -1333,18 +1300,14 @@ body.modal-open {
    -------------------------------------------------------------------------- */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+  inset: 0;
   background-color: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(4px);
   z-index: 9999;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 1rem;
+  align-items: flex-start;
+  padding: 1.5rem 1rem 80px 1rem;
   animation: fadeIn 0.25s ease-out;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -1356,10 +1319,10 @@ body.modal-open {
   padding: 1.8rem;
   max-width: 550px;
   width: 100%;
-  max-height: 85vh;
-  max-height: 85dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  margin: auto;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   position: relative;
   text-align: center;
@@ -1445,7 +1408,7 @@ body.modal-open {
   justify-content: center;
   gap: 0.3rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-height: 75px; /* Touch friendly */
+  min-height: 4.6875rem; /* 75px - Touch friendly */
   color: #ffffff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -1491,21 +1454,6 @@ body.modal-open {
 }
 
 /* Modal Feedback Area */
-.modal-feedback {
-  background-color: #f1f5f9;
-  border-radius: var(--border-radius-md);
-  padding: 1.2rem 1.2rem 0;
-  margin-top: 1rem;
-  animation: fadeIn 0.3s ease-in-out;
-  max-height: 85vh;
-  max-height: 85dvh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
 .modal-feedback-text {
   font-size: 1.15rem;
   font-weight: bold;
@@ -1611,7 +1559,7 @@ body.modal-open {
   .question-title { font-size: 1.35rem; }
   .quiz-visual-box { width: 100%; max-width: 260px; height: 180px; }
   .options-grid { grid-template-columns: 1fr; gap: 0.8rem; }
-  .option-btn { font-size: 1.15rem; padding: 1rem; min-height: 54px; }
+  .option-btn { font-size: 1.25rem; padding: 1rem; min-height: 3.75rem; }
   .star-rating { font-size: 2.2rem; }
   .badge-result { font-size: 1.1rem; padding: 0.6rem 1.2rem; }
   .quiz-actions { flex-direction: column; width: 100%; }
