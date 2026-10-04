@@ -11,7 +11,7 @@
   <!-- Header Navigation -->
   <header class="site-header">
     <div class="header-content">
-      <a href="index.html" class="back-link">🏠 Home</a>
+      <a href="index.html" class="back-link" aria-label="Back to Home Page">🏠 Home</a>
       <h1 class="logo">🔍 Angles Around Us</h1>
       <p class="tagline">Explore the classroom and playground to find hidden angles!</p>
     </div>
@@ -301,27 +301,27 @@
 
       <!-- 3 Answer Buttons -->
       <div class="modal-options-grid">
-        <button class="modal-opt-btn btn-right-angle" data-answer="right">
+        <button class="modal-opt-btn btn-right-angle" data-answer="right" aria-label="Select Right Angle">
           <span class="opt-badge badge-green">Square Corner</span>
           <span class="opt-text">Right Angle</span>
         </button>
 
-        <button class="modal-opt-btn btn-acute-angle" data-answer="acute">
+        <button class="modal-opt-btn btn-acute-angle" data-answer="acute" aria-label="Select Acute Angle">
           <span class="opt-badge badge-blue">Small & Sharp</span>
           <span class="opt-text">Acute Angle</span>
         </button>
 
-        <button class="modal-opt-btn btn-obtuse-angle" data-answer="obtuse">
+        <button class="modal-opt-btn btn-obtuse-angle" data-answer="obtuse" aria-label="Select Obtuse Angle">
           <span class="opt-badge badge-orange">Big & Wide</span>
           <span class="opt-text">Obtuse Angle</span>
         </button>
       </div>
 
       <!-- Feedback Area -->
-      <div id="modal-feedback" class="modal-feedback hidden">
+      <div id="modal-feedback" class="modal-feedback hidden" aria-live="polite">
         <p id="feedback-explanation" class="modal-feedback-text"></p>
         <div class="feedback-footer">
-          <button id="modal-next-btn" class="action-btn next-btn">Continue ➔</button>
+          <button id="modal-next-btn" class="action-btn next-btn" aria-label="Continue game">Continue ➔</button>
         </div>
       </div>
 
