@@ -7,7 +7,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Lab logic if on lab.html page
-  if (document.getElementById('angle-range')) {
+  if (document.getElementById('lab-svg')) {
     initAngleLab();
   }
 
@@ -25,36 +25,42 @@ document.addEventListener('DOMContentLoaded', () => {
  * Sets up event listeners and SVG math calculations for the Angle Lab slider.
  */
 function initAngleLab() {
-  const slider = document.getElementById('angle-range');
-  const degDisplay = document.getElementById('angle-deg-display');
+  const svg = document.getElementById('lab-svg');
   const rotatingArm = document.getElementById('lab-rotating-arm');
+  const dragHandle = document.getElementById('drag-handle');
   const indicatorPath = document.getElementById('lab-angle-indicator');
   const typeBadge = document.getElementById('lab-type-badge');
   const infoTitle = document.getElementById('lab-info-title');
   const infoDesc = document.getElementById('lab-info-desc');
-  const presetBtns = document.querySelectorAll('.preset-btn');
+
+  if (!svg || !dragHandle) return;
 
   // SVG Geometry Constants
-  const cx = 100; // Vertex X coordinate
-  const cy = 150; // Vertex Y coordinate
-  const armLength = 80;
+  const cx = 150; // Vertex X coordinate
+  const cy = 210; // Vertex Y coordinate
+  const armLength = 110; // Length of the rotating arm
+
+  let currentAngle = 90; // Default angle in degrees
+  let isDragging = false;
 
   /**
    * Updates the lab UI according to the target angle in degrees.
    * @param {number} degrees - Angle in degrees (10 to 170)
    */
   function updateLab(degrees) {
-    degDisplay.textContent = `${degrees}°`;
+    currentAngle = degrees;
 
     // Convert angle to radians for trigonometric arm calculation
-    // Base line goes from (100,150) to (180,150) -> 0 degrees is facing East (Right)
+    // Base line goes from (150,210) to (260,210) -> 0 degrees is facing East (Right)
     const radians = (degrees * Math.PI) / 180;
     const armX = cx + armLength * Math.cos(radians);
     const armY = cy - armLength * Math.sin(radians); // Y axis inverted in SVG
 
-    // Update dynamic rotating arm position
+    // Update dynamic rotating arm position and red drag handle
     rotatingArm.setAttribute('x2', armX.toFixed(2));
     rotatingArm.setAttribute('y2', armY.toFixed(2));
+    dragHandle.setAttribute('cx', armX.toFixed(2));
+    dragHandle.setAttribute('cy', armY.toFixed(2));
 
     // Determine Angle Type & Color Palette
     let angleType = '';
@@ -64,48 +70,51 @@ function initAngleLab() {
     let descText = '';
 
     if (degrees === 90) {
-      angleType = 'Right Angle (90°)';
+      angleType = 'Right angle';
       strokeColor = '#2ecc71'; // Green
       badgeClass = 'badge-green';
-      titleText = '🟩 Right Angle';
-      descText = 'A right angle is exactly 90 degrees. It forms a perfect square L-shape corner!';
+      titleText = '🟩 Right angle';
+      descText = 'A right angle forms a perfect square L-shape corner!';
 
-      // Draw square indicator for Right Angle
-      const sqSize = 20;
+      // Draw square indicator symbol at the vertex for Right Angle
+      const sqSize = 25;
       indicatorPath.setAttribute(
         'd',
         `M ${cx + sqSize},${cy} L ${cx + sqSize},${cy - sqSize} L ${cx},${cy - sqSize}`
       );
+      indicatorPath.setAttribute('class', 'lab-indicator-path square-marker-lab');
     } else if (degrees < 90) {
-      angleType = `Acute Angle (${degrees}°)`;
+      angleType = 'Acute angle';
       strokeColor = '#3498db'; // Blue
       badgeClass = 'badge-blue';
-      titleText = '🟦 Acute Angle';
-      descText = 'An acute angle is smaller than 90 degrees. It is sharp and cute!';
+      titleText = '🟦 Acute angle';
+      descText = 'An acute angle is smaller than a right angle. It is sharp and small!';
 
       // Draw arc indicator for Acute Angle
-      const arcR = 30;
+      const arcR = 35;
       const arcX = cx + arcR * Math.cos(radians);
       const arcY = cy - arcR * Math.sin(radians);
       indicatorPath.setAttribute(
         'd',
         `M ${cx + arcR},${cy} A ${arcR} ${arcR} 0 0 0 ${arcX.toFixed(2)} ${arcY.toFixed(2)}`
       );
+      indicatorPath.setAttribute('class', 'lab-indicator-path');
     } else {
-      angleType = `Obtuse Angle (${degrees}°)`;
+      angleType = 'Obtuse angle';
       strokeColor = '#f39c12'; // Orange
       badgeClass = 'badge-orange';
-      titleText = '🟧 Obtuse Angle';
-      descText = 'An obtuse angle is greater than 90 degrees but less than 180 degrees. It opens up wide!';
+      titleText = '🟧 Obtuse angle';
+      descText = 'An obtuse angle is wider than a right angle!';
 
       // Draw arc indicator for Obtuse Angle
-      const arcR = 30;
+      const arcR = 35;
       const arcX = cx + arcR * Math.cos(radians);
       const arcY = cy - arcR * Math.sin(radians);
       indicatorPath.setAttribute(
         'd',
         `M ${cx + arcR},${cy} A ${arcR} ${arcR} 0 0 0 ${arcX.toFixed(2)} ${arcY.toFixed(2)}`
       );
+      indicatorPath.setAttribute('class', 'lab-indicator-path');
     }
 
     // Update SVG elements styling
@@ -119,21 +128,62 @@ function initAngleLab() {
     infoDesc.textContent = descText;
   }
 
-  // Handle Range Slider Input
-  slider.addEventListener('input', (e) => {
-    updateLab(parseInt(e.target.value, 10));
-  });
+  /**
+   * Calculates angle from pointer event coordinates relative to SVG vertex.
+   */
+  function calculateAngleFromPointer(e) {
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+    const svgPt = pt.matrixTransform(svg.getScreenCTM().inverse());
 
-  // Handle Preset Quick Buttons
-  presetBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const val = parseInt(btn.getAttribute('data-angle'), 10);
-      slider.value = val;
-      updateLab(val);
-    });
-  });
+    const dx = svgPt.x - cx;
+    const dy = cy - svgPt.y; // Invert dy so upwards is positive
 
-  // Initial render at default 90 degrees
+    let deg = Math.round((Math.atan2(dy, dx) * 180) / Math.PI);
+    if (deg < 0) deg += 360;
+
+    // Snap to 90 degrees if close (between 87° and 93°)
+    if (deg >= 87 && deg <= 93) {
+      deg = 90;
+    } else {
+      // Clamp between 10° and 170°
+      deg = Math.max(10, Math.min(170, deg));
+    }
+
+    return deg;
+  }
+
+  function handlePointerDown(e) {
+    isDragging = true;
+    dragHandle.setPointerCapture(e.pointerId);
+    const newAngle = calculateAngleFromPointer(e);
+    updateLab(newAngle);
+  }
+
+  function handlePointerMove(e) {
+    if (!isDragging) return;
+    const newAngle = calculateAngleFromPointer(e);
+    updateLab(newAngle);
+  }
+
+  function handlePointerUp(e) {
+    if (isDragging) {
+      isDragging = false;
+      try {
+        dragHandle.releasePointerCapture(e.pointerId);
+      } catch (err) {}
+    }
+  }
+
+  // Pointer Event Listeners for smooth touch and mouse interaction
+  dragHandle.addEventListener('pointerdown', handlePointerDown);
+  svg.addEventListener('pointerdown', handlePointerDown);
+  window.addEventListener('pointermove', handlePointerMove);
+  window.addEventListener('pointerup', handlePointerUp);
+  window.addEventListener('pointercancel', handlePointerUp);
+
+  // Initial render at 90 degrees
   updateLab(90);
 }
 
