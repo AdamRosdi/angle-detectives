@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initAngleLab();
   }
 
+  // Initialize Sort Angles logic if on lab.html page
+  if (document.getElementById('sort-section')) {
+    initSortAngles();
+  }
+
   // Initialize Quiz logic if on quiz.html page
   if (document.getElementById('options-grid')) {
     initAngleQuiz();
@@ -185,6 +190,376 @@ function initAngleLab() {
 
   // Initial render at 90 degrees
   updateLab(90);
+}
+
+/* ============================================================================
+   SECTION 1b: SORT THE ANGLES INTERACTION
+   ============================================================================ */
+
+/**
+ * 9 Angle SVG Cards (3 Right, 3 Acute, 3 Obtuse)
+ * All cards differ in arm lengths, orientation / angle, and scale.
+ * NO degree numbers are displayed!
+ */
+const sortCardData = [
+  // 3 Right Angles (Green stroke)
+  {
+    id: 'right-1',
+    type: 'right',
+    svg: `
+      <svg viewBox="0 0 100 100" aria-label="Right angle card 1">
+        <line x1="20" y1="80" x2="80" y2="80" stroke="#2ecc71" stroke-width="5" stroke-linecap="round" />
+        <line x1="20" y1="80" x2="20" y2="20" stroke="#2ecc71" stroke-width="5" stroke-linecap="round" />
+        <rect x="20" y="65" width="15" height="15" class="square-marker green-stroke" />
+        <circle cx="20" cy="80" r="4" class="vertex-dot" />
+      </svg>
+    `
+  },
+  {
+    id: 'right-2',
+    type: 'right',
+    svg: `
+      <svg viewBox="0 0 100 100" aria-label="Right angle card 2">
+        <line x1="80" y1="80" x2="20" y2="80" stroke="#2ecc71" stroke-width="5" stroke-linecap="round" />
+        <line x1="80" y1="80" x2="80" y2="20" stroke="#2ecc71" stroke-width="5" stroke-linecap="round" />
+        <rect x="65" y="65" width="15" height="15" class="square-marker green-stroke" />
+        <circle cx="80" cy="80" r="4" class="vertex-dot" />
+      </svg>
+    `
+  },
+  {
+    id: 'right-3',
+    type: 'right',
+    svg: `
+      <svg viewBox="0 0 100 100" aria-label="Right angle card 3">
+        <line x1="20" y1="20" x2="80" y2="20" stroke="#2ecc71" stroke-width="5" stroke-linecap="round" />
+        <line x1="20" y1="20" x2="20" y2="80" stroke="#2ecc71" stroke-width="5" stroke-linecap="round" />
+        <rect x="20" y="20" width="15" height="15" class="square-marker green-stroke" />
+        <circle cx="20" cy="20" r="4" class="vertex-dot" />
+      </svg>
+    `
+  },
+
+  // 3 Acute Angles (Blue stroke)
+  {
+    id: 'acute-1',
+    type: 'acute',
+    svg: `
+      <svg viewBox="0 0 100 100" aria-label="Acute angle card 1">
+        <line x1="15" y1="80" x2="85" y2="80" stroke="#3498db" stroke-width="5" stroke-linecap="round" />
+        <line x1="15" y1="80" x2="70" y2="25" stroke="#3498db" stroke-width="5" stroke-linecap="round" />
+        <path d="M 40,80 A 25 25 0 0 0 32.6,62.3" class="arc-marker blue-stroke" />
+        <circle cx="15" cy="80" r="4" class="vertex-dot" />
+      </svg>
+    `
+  },
+  {
+    id: 'acute-2',
+    type: 'acute',
+    svg: `
+      <svg viewBox="0 0 100 100" aria-label="Acute angle card 2">
+        <line x1="85" y1="80" x2="15" y2="80" stroke="#3498db" stroke-width="5" stroke-linecap="round" />
+        <line x1="85" y1="80" x2="40" y2="20" stroke="#3498db" stroke-width="5" stroke-linecap="round" />
+        <path d="M 60,80 A 25 25 0 0 1 66.4,63.2" class="arc-marker blue-stroke" />
+        <circle cx="85" cy="80" r="4" class="vertex-dot" />
+      </svg>
+    `
+  },
+  {
+    id: 'acute-3',
+    type: 'acute',
+    svg: `
+      <svg viewBox="0 0 100 100" aria-label="Acute angle card 3">
+        <line x1="20" y1="70" x2="80" y2="70" stroke="#3498db" stroke-width="5" stroke-linecap="round" />
+        <line x1="20" y1="70" x2="80" y2="40" stroke="#3498db" stroke-width="5" stroke-linecap="round" />
+        <path d="M 45,70 A 25 25 0 0 0 43.7,60.5" class="arc-marker blue-stroke" />
+        <circle cx="20" cy="70" r="4" class="vertex-dot" />
+      </svg>
+    `
+  },
+
+  // 3 Obtuse Angles (Orange stroke)
+  {
+    id: 'obtuse-1',
+    type: 'obtuse',
+    svg: `
+      <svg viewBox="0 0 100 100" aria-label="Obtuse angle card 1">
+        <line x1="60" y1="80" x2="95" y2="80" stroke="#f39c12" stroke-width="5" stroke-linecap="round" />
+        <line x1="60" y1="80" x2="10" y2="30" stroke="#f39c12" stroke-width="5" stroke-linecap="round" />
+        <path d="M 85,80 A 25 25 0 0 0 42.3,62.3" class="arc-marker orange-stroke" />
+        <circle cx="60" cy="80" r="4" class="vertex-dot" />
+      </svg>
+    `
+  },
+  {
+    id: 'obtuse-2',
+    type: 'obtuse',
+    svg: `
+      <svg viewBox="0 0 100 100" aria-label="Obtuse angle card 2">
+        <line x1="40" y1="80" x2="5" y2="80" stroke="#f39c12" stroke-width="5" stroke-linecap="round" />
+        <line x1="40" y1="80" x2="90" y2="30" stroke="#f39c12" stroke-width="5" stroke-linecap="round" />
+        <path d="M 15,80 A 25 25 0 0 1 57.7,62.3" class="arc-marker orange-stroke" />
+        <circle cx="40" cy="80" r="4" class="vertex-dot" />
+      </svg>
+    `
+  },
+  {
+    id: 'obtuse-3',
+    type: 'obtuse',
+    svg: `
+      <svg viewBox="0 0 100 100" aria-label="Obtuse angle card 3">
+        <line x1="55" y1="85" x2="95" y2="85" stroke="#f39c12" stroke-width="5" stroke-linecap="round" />
+        <line x1="55" y1="85" x2="10" y2="45" stroke="#f39c12" stroke-width="5" stroke-linecap="round" />
+        <path d="M 80,85 A 25 25 0 0 0 36.3,68.4" class="arc-marker orange-stroke" />
+        <circle cx="55" cy="85" r="4" class="vertex-dot" />
+      </svg>
+    `
+  }
+];
+
+function initSortAngles() {
+  const cardsContainer = document.getElementById('sort-cards-container');
+  const scoreDisplay = document.getElementById('sort-score');
+  const messageBox = document.getElementById('sort-message');
+  const completionBanner = document.getElementById('sort-completion');
+  const resetBtn = document.getElementById('sort-reset-btn');
+
+  const dropBoxes = {
+    right: document.getElementById('drop-box-right'),
+    acute: document.getElementById('drop-box-acute'),
+    obtuse: document.getElementById('drop-box-obtuse')
+  };
+
+  const dropBoxElements = document.querySelectorAll('.drop-box');
+
+  let score = 0;
+  let activeCard = null;
+  let startX = 0;
+  let startY = 0;
+  let initialCardX = 0;
+  let initialCardY = 0;
+
+  /**
+   * Shows a gentle message to the pupil.
+   */
+  function showMessage(text, isError = false) {
+    messageBox.textContent = text;
+    messageBox.className = `sort-message ${isError ? 'error' : 'success'}`;
+    messageBox.classList.remove('hidden');
+  }
+
+  function hideMessage() {
+    messageBox.classList.add('hidden');
+  }
+
+  /**
+   * Initializes or resets the sorting game.
+   */
+  function setupGame() {
+    score = 0;
+    scoreDisplay.textContent = '0';
+    hideMessage();
+    completionBanner.classList.add('hidden');
+
+    // Clear drop boxes
+    Object.values(dropBoxes).forEach(box => box.innerHTML = '');
+
+    // Clear cards container
+    cardsContainer.innerHTML = '';
+
+    // Shuffle cards
+    const shuffledCards = shuffleArray(sortCardData);
+
+    shuffledCards.forEach(data => {
+      const card = document.createElement('div');
+      card.className = 'angle-card';
+      card.id = `card-${data.id}`;
+      card.dataset.id = data.id;
+      card.dataset.type = data.type;
+      card.innerHTML = data.svg;
+
+      // Attach Pointer Event listener for drag & drop
+      card.addEventListener('pointerdown', handlePointerDown);
+
+      cardsContainer.appendChild(card);
+    });
+  }
+
+  /**
+   * Pointer Down Event Handler
+   */
+  function handlePointerDown(e) {
+    const card = e.currentTarget;
+    if (card.classList.contains('placed')) return; // Ignore already placed cards
+
+    activeCard = card;
+    card.setPointerCapture(e.pointerId);
+
+    const rect = card.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+
+    // Get current transform offsets if any
+    const style = window.getComputedStyle(card);
+    const matrix = new WebKitCSSMatrix(style.transform);
+    initialCardX = matrix.m41;
+    initialCardY = matrix.m42;
+
+    card.classList.add('dragging');
+    hideMessage();
+
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointercancel', handlePointerUp);
+  }
+
+  /**
+   * Pointer Move Event Handler
+   */
+  function handlePointerMove(e) {
+    if (!activeCard) return;
+
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    const newX = initialCardX + dx;
+    const newY = initialCardY + dy;
+
+    activeCard.style.transform = `translate(${newX}px, ${newY}px)`;
+
+    // Highlight drop box under current pointer position
+    const cardRect = activeCard.getBoundingClientRect();
+    const centerX = cardRect.left + cardRect.width / 2;
+    const centerY = cardRect.top + cardRect.height / 2;
+
+    dropBoxElements.forEach(box => {
+      const boxRect = box.getBoundingClientRect();
+      if (
+        centerX >= boxRect.left &&
+        centerX <= boxRect.right &&
+        centerY >= boxRect.top &&
+        centerY <= boxRect.bottom
+      ) {
+        box.classList.add('drag-over');
+      } else {
+        box.classList.remove('drag-over');
+      }
+    });
+  }
+
+  /**
+   * Pointer Up / Release Event Handler
+   */
+  function handlePointerUp(e) {
+    if (!activeCard) return;
+
+    const card = activeCard;
+    activeCard = null;
+
+    try {
+      card.releasePointerCapture(e.pointerId);
+    } catch (err) {}
+
+    window.removeEventListener('pointermove', handlePointerMove);
+    window.removeEventListener('pointerup', handlePointerUp);
+    window.removeEventListener('pointercancel', handlePointerUp);
+
+    card.classList.remove('dragging');
+
+    // Clear hover drag-over styling from drop boxes
+    dropBoxElements.forEach(box => box.classList.remove('drag-over'));
+
+    // Check which drop box (if any) the center of the card was dropped in
+    const cardRect = card.getBoundingClientRect();
+    const centerX = cardRect.left + cardRect.width / 2;
+    const centerY = cardRect.top + cardRect.height / 2;
+
+    let targetBox = null;
+    dropBoxElements.forEach(box => {
+      const boxRect = box.getBoundingClientRect();
+      if (
+        centerX >= boxRect.left &&
+        centerX <= boxRect.right &&
+        centerY >= boxRect.top &&
+        centerY <= boxRect.bottom
+      ) {
+        targetBox = box;
+      }
+    });
+
+    if (targetBox) {
+      const targetType = targetBox.dataset.target;
+      const cardType = card.dataset.type;
+
+      if (cardType === targetType) {
+        // CORRECT DROP!
+        handleCorrectDrop(card, targetBox, cardType);
+      } else {
+        // WRONG DROP!
+        handleWrongDrop(card);
+      }
+    } else {
+      // Dropped outside any box - smoothly bounce back
+      bounceBack(card);
+    }
+  }
+
+  /**
+   * Handles correct placement of card in target drop box.
+   */
+  function handleCorrectDrop(card, targetBox, cardType) {
+    card.removeEventListener('pointerdown', handlePointerDown);
+    card.style.transform = '';
+    card.classList.add('placed', `placed-${cardType}`);
+
+    const targetContent = dropBoxes[cardType];
+    targetContent.appendChild(card);
+
+    score++;
+    scoreDisplay.textContent = score;
+
+    showMessage("✨ Great job! That's correct!", false);
+
+    // Check if all 9 cards are sorted
+    if (score === sortCardData.length) {
+      setTimeout(() => {
+        hideMessage();
+        completionBanner.classList.remove('hidden');
+      }, 500);
+    }
+  }
+
+  /**
+   * Handles wrong placement with gentle feedback and bounce back animation.
+   */
+  function handleWrongDrop(card) {
+    const cardTypeNames = {
+      right: 'a right angle (square corner)',
+      acute: 'an acute angle (small & sharp)',
+      obtuse: 'an obtuse angle (wide)'
+    };
+
+    showMessage(`Oops! Try looking closer at the corner shape. That's not quite right!`, true);
+    bounceBack(card);
+  }
+
+  /**
+   * Smoothly animates card back to its original slot.
+   */
+  function bounceBack(card) {
+    card.classList.add('bouncing');
+    card.style.transform = 'translate(0px, 0px)';
+
+    setTimeout(() => {
+      card.classList.remove('bouncing');
+    }, 400);
+  }
+
+  // Play Again Button Listener
+  resetBtn.addEventListener('click', setupGame);
+
+  // Initial Game Setup
+  setupGame();
 }
 
 /* ============================================================================

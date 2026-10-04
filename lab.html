@@ -55,6 +55,58 @@
 
     </section>
 
+    <!-- Sort the Angles Section -->
+    <section class="lab-card sort-section" id="sort-section">
+      <div class="lab-header">
+        <h2>Sort the Angles</h2>
+        <p class="instruction-text">Drag each angle card into the correct drop box below!</p>
+      </div>
+
+      <div class="sort-status-bar">
+        <div class="sort-score-box">
+          Score: <span id="sort-score" class="score-highlight">0</span> / 9
+        </div>
+        <div id="sort-message" class="sort-message hidden" aria-live="polite"></div>
+      </div>
+
+      <!-- Completion Banner (hidden until all 9 are sorted) -->
+      <div id="sort-completion" class="sort-completion hidden">
+        <div class="trophy-icon">🌟</div>
+        <h3>Well done!</h3>
+        <p>You successfully sorted all the angles!</p>
+        <button id="sort-reset-btn" class="action-btn btn-restart">Play again</button>
+      </div>
+
+      <!-- Drop Boxes -->
+      <div class="drop-boxes-container">
+        <div class="drop-box right-box" data-target="right">
+          <div class="drop-box-header">
+            <span class="box-badge badge-green">Right Angle</span>
+          </div>
+          <div class="drop-box-content" id="drop-box-right"></div>
+        </div>
+
+        <div class="drop-box acute-box" data-target="acute">
+          <div class="drop-box-header">
+            <span class="box-badge badge-blue">Acute Angle</span>
+          </div>
+          <div class="drop-box-content" id="drop-box-acute"></div>
+        </div>
+
+        <div class="drop-box obtuse-box" data-target="obtuse">
+          <div class="drop-box-header">
+            <span class="box-badge badge-orange">Obtuse Angle</span>
+          </div>
+          <div class="drop-box-content" id="drop-box-obtuse"></div>
+        </div>
+      </div>
+
+      <!-- Draggable Cards Pool -->
+      <div id="sort-cards-container" class="sort-cards-container">
+        <!-- Cards generated dynamically via JavaScript -->
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
