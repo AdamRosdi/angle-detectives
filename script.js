@@ -1289,6 +1289,7 @@ function initAnglesAroundUs() {
    */
   function closeModal() {
     angleModal.classList.add('hidden');
+    document.body.classList.remove('modal-open');
     currentActiveSpotKey = null;
   }
 
@@ -1315,6 +1316,7 @@ function initAnglesAroundUs() {
     modalFeedback.classList.add('hidden');
 
     angleModal.classList.remove('hidden');
+    document.body.classList.add('modal-open');
   }
 
   /**
@@ -1375,6 +1377,7 @@ function initAnglesAroundUs() {
     if (foundSpots.size === totalSpots) {
       setTimeout(() => {
         completionModal.classList.remove('hidden');
+        document.body.classList.add('modal-open');
       }, 300);
     }
   });
@@ -1391,6 +1394,7 @@ function initAnglesAroundUs() {
     spots.forEach(spotEl => spotEl.classList.remove('found'));
 
     completionModal.classList.add('hidden');
+    document.body.classList.remove('modal-open');
     closeModal();
   });
 }
