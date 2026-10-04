@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real-Life Angles - Angle Detectives</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="header-content">
+      <a href="index.html" class="back-link">⬅ Back to Home</a>
+      <h1 class="logo">🔍 Real-Life Angles</h1>
+      <p class="tagline">Look around! Angles are hiding everywhere in our everyday world!</p>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <section class="reallife-hero">
+      <h2>Everyday Angle Detective Hunt</h2>
+      <p>Click on each real-life object to reveal its hidden angle!</p>
+    </section>
+
+    <!-- Real Life Items Grid -->
+    <section class="reallife-grid">
+
+      <!-- Item 1: Book Corner -->
+      <div class="reallife-card right-border" data-type="right">
+        <div class="reallife-icon">📖</div>
+        <h3>Book Corner</h3>
+        <p class="reallife-desc">Look at the corner of a book or notebook.</p>
+        <div class="angle-visual-box mini">
+          <svg viewBox="0 0 100 100" class="angle-svg">
+            <path d="M 30,20 L 30,80 L 80,80" class="angle-line green-stroke" />
+            <rect x="30" y="60" width="20" height="20" class="square-marker green-stroke" />
+          </svg>
+        </div>
+        <div class="type-badge badge-green">Right Angle (90°)</div>
+      </div>
+
+      <!-- Item 2: Clock Hands at 3 o'clock -->
+      <div class="reallife-card right-border" data-type="right">
+        <div class="reallife-icon">🕒</div>
+        <h3>Clock at 3:00</h3>
+        <p class="reallife-desc">The hour hand and minute hand make an L shape!</p>
+        <div class="angle-visual-box mini">
+          <svg viewBox="0 0 100 100" class="angle-svg">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#64748b" stroke-width="3" />
+            <path d="M 50,20 L 50,50 L 80,50" class="angle-line green-stroke" />
+            <rect x="50" y="35" width="15" height="15" class="square-marker green-stroke" />
+          </svg>
+        </div>
+        <div class="type-badge badge-green">Right Angle (90°)</div>
+      </div>
+
+      <!-- Item 3: Slice of Pizza -->
+      <div class="reallife-card acute-border" data-type="acute">
+        <div class="reallife-icon">🍕</div>
+        <h3>Slice of Pizza</h3>
+        <p class="reallife-desc">The tip of a slice of pizza is sharp and narrow.</p>
+        <div class="angle-visual-box mini">
+          <svg viewBox="0 0 100 100" class="angle-svg">
+            <path d="M 70,30 L 20,80 L 80,70" class="angle-line blue-stroke" />
+            <path d="M 35,80 A 15 15 0 0 0 35,66" class="arc-marker blue-stroke" />
+          </svg>
+        </div>
+        <div class="type-badge badge-blue">Acute Angle (&lt; 90°)</div>
+      </div>
+
+      <!-- Item 4: Scissors Open -->
+      <div class="reallife-card acute-border" data-type="acute">
+        <div class="reallife-icon">✂️</div>
+        <h3>Open Scissors</h3>
+        <p class="reallife-desc">When slightly open, scissor blades form a small angle.</p>
+        <div class="angle-visual-box mini">
+          <svg viewBox="0 0 100 100" class="angle-svg">
+            <path d="M 75,25 L 20,80 L 85,60" class="angle-line blue-stroke" />
+            <path d="M 35,80 A 15 15 0 0 0 32,68" class="arc-marker blue-stroke" />
+          </svg>
+        </div>
+        <div class="type-badge badge-blue">Acute Angle (&lt; 90°)</div>
+      </div>
+
+      <!-- Item 5: Open Beach Umbrella / Fan -->
+      <div class="reallife-card obtuse-border" data-type="obtuse">
+        <div class="reallife-icon">🪭</div>
+        <h3>Hand Fan</h3>
+        <p class="reallife-desc">An opened fan spans wide across!</p>
+        <div class="angle-visual-box mini">
+          <svg viewBox="0 0 100 100" class="angle-svg">
+            <path d="M 10,35 L 50,80 L 95,45" class="angle-line orange-stroke" />
+            <path d="M 62,67 A 20 20 0 0 0 38,66" class="arc-marker orange-stroke" />
+          </svg>
+        </div>
+        <div class="type-badge badge-orange">Obtuse Angle (&gt; 90°)</div>
+      </div>
+
+      <!-- Item 6: House Roof -->
+      <div class="reallife-card obtuse-border" data-type="obtuse">
+        <div class="reallife-icon">🏠</div>
+        <h3>Roof Top</h3>
+        <p class="reallife-desc">Most house roofs slant wide to let rain slide off.</p>
+        <div class="angle-visual-box mini">
+          <svg viewBox="0 0 100 100" class="angle-svg">
+            <path d="M 10,60 L 50,25 L 90,60" class="angle-line orange-stroke" />
+            <path d="M 60,34 A 15 15 0 0 1 40,34" class="arc-marker orange-stroke" />
+          </svg>
+        </div>
+        <div class="type-badge badge-orange">Obtuse Angle (&gt; 90°)</div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Angle Detectives - Fun Maths for Year 4 Pupils</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
