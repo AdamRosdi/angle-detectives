@@ -26,17 +26,22 @@
       <div class="quiz-status-bar">
         <div class="status-item">
           <span>Question:</span>
-          <strong id="quiz-progress">1 / 5</strong>
+          <strong id="quiz-progress">1 / 10</strong>
         </div>
         <div class="status-item">
           <span>Score:</span>
-          <strong id="quiz-score" class="score-highlight">0 pts</strong>
+          <strong id="quiz-score" class="score-highlight">0</strong>
         </div>
+      </div>
+
+      <!-- Visual Progress Bar -->
+      <div class="progress-bar-container">
+        <div id="progress-bar-fill" class="progress-bar-fill" style="width: 10%;"></div>
       </div>
 
       <!-- Question Container -->
       <div id="question-container" class="question-container">
-        <h2 id="question-title" class="question-title">What type of angle is shown here?</h2>
+        <h2 id="question-title" class="question-title">Question Title</h2>
 
         <!-- SVG Visual Box -->
         <div class="quiz-visual-box" id="quiz-visual-box">
@@ -60,11 +65,12 @@
       <!-- Quiz Complete Screen -->
       <div id="quiz-complete" class="quiz-complete hidden">
         <div class="trophy-icon">🏆</div>
-        <h2>Great Job, Detective!</h2>
-        <p class="final-score-text">You scored <span id="final-score-text">0</span> out of 5!</p>
+        <h2>Quiz Complete!</h2>
+        <div id="star-rating" class="star-rating" aria-label="Star rating">⭐⭐⭐⭐⭐</div>
+        <p class="final-score-text">You scored <span id="final-score-text">0</span> out of 10!</p>
         <div id="final-badge-text" class="badge-result">Super Detective Badge Earned!</div>
         <div class="quiz-actions">
-          <button id="restart-quiz-btn" class="action-btn btn-restart">Play Again 🔄</button>
+          <button id="restart-quiz-btn" class="action-btn btn-restart">Play again 🔄</button>
           <a href="index.html" class="action-btn btn-home">Back to Home 🏠</a>
         </div>
       </div>
