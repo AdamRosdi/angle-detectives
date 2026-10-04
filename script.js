@@ -6,6 +6,14 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Handle in-memory session progress reset on page refresh
+  initSessionProgress();
+
+  // Initialize Home page progress badge display if on index.html
+  if (document.getElementById('badge-display-grid')) {
+    updateHomeBadges();
+  }
+
   // Initialize Lab logic if on lab.html page
   if (document.getElementById('lab-svg')) {
     initAngleLab();
@@ -31,6 +39,59 @@ document.addEventListener('DOMContentLoaded', () => {
     initAnglesAroundUs();
   }
 });
+
+/**
+ * Manages session memory progress and resets when page reload is detected.
+ */
+function initSessionProgress() {
+  const isReload = window.performance && window.performance.getEntriesByType &&
+    window.performance.getEntriesByType('navigation').length > 0 &&
+    window.performance.getEntriesByType('navigation')[0].type === 'reload';
+
+  if (isReload) {
+    sessionStorage.removeItem('game_completed_lab');
+    sessionStorage.removeItem('game_completed_quiz');
+    sessionStorage.removeItem('game_completed_reallife');
+  }
+}
+
+/**
+ * Updates the badges and completed count display on index.html.
+ */
+function updateHomeBadges() {
+  const labCompleted = sessionStorage.getItem('game_completed_lab') === 'true';
+  const quizCompleted = sessionStorage.getItem('game_completed_quiz') === 'true';
+  const realLifeCompleted = sessionStorage.getItem('game_completed_reallife') === 'true';
+
+  let count = 0;
+  if (labCompleted) count++;
+  if (quizCompleted) count++;
+  if (realLifeCompleted) count++;
+
+  const countDisplay = document.getElementById('completed-count');
+  if (countDisplay) {
+    countDisplay.textContent = count;
+  }
+
+  setBadgeStatus('badge-lab', 'status-lab', labCompleted);
+  setBadgeStatus('badge-quiz', 'status-quiz', quizCompleted);
+  setBadgeStatus('badge-reallife', 'status-reallife', realLifeCompleted);
+}
+
+function setBadgeStatus(badgeId, statusId, isCompleted) {
+  const badgeEl = document.getElementById(badgeId);
+  const statusEl = document.getElementById(statusId);
+
+  if (badgeEl && statusEl) {
+    if (isCompleted) {
+      badgeEl.classList.add('completed');
+      statusEl.textContent = 'Completed! ⭐';
+    } else {
+      badgeEl.classList.remove('completed');
+      statusEl.textContent = 'Not yet done';
+    }
+  }
+}
 
 /* ============================================================================
    SECTION 1: ANGLE LAB INTERACTION
@@ -532,6 +593,7 @@ function initSortAngles() {
 
     // Check if all 9 cards are sorted
     if (score === sortCardData.length) {
+      sessionStorage.setItem('game_completed_lab', 'true');
       setTimeout(() => {
         hideMessage();
         completionBanner.classList.remove('hidden');
@@ -1121,6 +1183,7 @@ function initAngleQuiz() {
    * Displays the final results screen upon completing the quiz.
    */
   function showQuizComplete() {
+    sessionStorage.setItem('game_completed_quiz', 'true');
     questionContainer.classList.add('hidden');
     quizCompleteContainer.classList.remove('hidden');
 
@@ -1375,6 +1438,7 @@ function initAnglesAroundUs() {
     closeModal();
     // Check if all spots found
     if (foundSpots.size === totalSpots) {
+      sessionStorage.setItem('game_completed_reallife', 'true');
       setTimeout(() => {
         completionModal.classList.remove('hidden');
         document.body.classList.add('modal-open');

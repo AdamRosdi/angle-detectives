@@ -33,7 +33,7 @@
         <div class="badge">Square Corner</div>
         <h3>Right Angle</h3>
         <div class="angle-visual-box">
-          <svg viewBox="0 0 100 100" class="angle-svg">
+          <svg viewBox="0 0 100 100" class="angle-svg" role="img" aria-label="Right angle diagram showing a square corner in green">
             <path d="M 20,20 L 20,80 L 80,80" class="angle-line green-stroke" />
             <rect x="20" y="60" width="20" height="20" class="square-marker green-stroke" />
             <circle cx="20" cy="80" r="4" class="vertex-dot" />
@@ -48,7 +48,7 @@
         <div class="badge">Small & Sharp</div>
         <h3>Acute Angle</h3>
         <div class="angle-visual-box">
-          <svg viewBox="0 0 100 100" class="angle-svg">
+          <svg viewBox="0 0 100 100" class="angle-svg" role="img" aria-label="Acute angle diagram showing a small sharp angle in blue">
             <path d="M 60,25 L 20,80 L 80,80" class="angle-line blue-stroke" />
             <path d="M 35,80 A 15 15 0 0 0 30,66" class="arc-marker blue-stroke" />
             <circle cx="20" cy="80" r="4" class="vertex-dot" />
@@ -63,7 +63,7 @@
         <div class="badge">Big & Wide</div>
         <h3>Obtuse Angle</h3>
         <div class="angle-visual-box">
-          <svg viewBox="0 0 100 100" class="angle-svg">
+          <svg viewBox="0 0 100 100" class="angle-svg" role="img" aria-label="Obtuse angle diagram showing a wide angle in orange">
             <path d="M 5,30 L 40,80 L 95,80" class="angle-line orange-stroke" />
             <path d="M 55,80 A 15 15 0 0 0 26,60" class="arc-marker orange-stroke" />
             <circle cx="40" cy="80" r="4" class="vertex-dot" />
@@ -75,14 +75,68 @@
 
     </section>
 
+    <!-- Mission Progress & Badges Section -->
+    <section class="progress-section" aria-label="Mission Progress Tracker">
+      <div class="progress-card">
+        <h2>⭐ Your Detective Badges</h2>
+        <p class="progress-summary">Missions completed during this visit: <strong id="completed-count">0</strong> / 3</p>
+        <div class="badge-display-grid" id="badge-display-grid" aria-label="Completed game badges display">
+          <div class="badge-item" id="badge-lab" title="Angle Lab">
+            <span class="badge-icon">🧪</span>
+            <span class="badge-name">Angle Lab</span>
+            <span class="badge-status" id="status-lab">Not yet done</span>
+          </div>
+          <div class="badge-item" id="badge-quiz" title="Detective Quiz">
+            <span class="badge-icon">❓</span>
+            <span class="badge-name">Detective Quiz</span>
+            <span class="badge-status" id="status-quiz">Not yet done</span>
+          </div>
+          <div class="badge-item" id="badge-reallife" title="Angles Around Us">
+            <span class="badge-icon">🔍</span>
+            <span class="badge-name">Angles Around Us</span>
+            <span class="badge-status" id="status-reallife">Not yet done</span>
+          </div>
+        </div>
+        <p class="reset-note"><em>Note: Your progress is kept in memory during this visit and resets when the page is refreshed.</em></p>
+      </div>
+    </section>
+
+    <!-- How to Play Section -->
+    <section class="how-to-play-section" aria-label="How to Play Instructions">
+      <h2 class="section-title">🎮 How to Play</h2>
+      <div class="how-to-play-grid">
+        <div class="how-card">
+          <div class="how-header">
+            <span class="how-icon">🧪</span>
+            <h3>Angle Lab</h3>
+          </div>
+          <p>Drag the red dots to change angles and triangles, or sort cards into the correct drop boxes.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-header">
+            <span class="how-icon">❓</span>
+            <h3>Detective Quiz</h3>
+          </div>
+          <p>Read each question and select the correct angle or shape to earn your detective badge.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-header">
+            <span class="how-icon">🔍</span>
+            <h3>Angles Around Us</h3>
+          </div>
+          <p>Tap the pulsing magnifying glasses in the scene to inspect hidden angles in real objects.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Main Navigation Action Buttons -->
     <section class="navigation-section">
       <h2 class="section-title">Choose Your Mission!</h2>
       <div class="large-buttons-grid">
 
         <!-- Button 1: Angle Lab -->
-        <a href="lab.html" class="nav-btn btn-lab">
-          <div class="btn-icon">🧪</div>
+        <a href="lab.html" class="nav-btn btn-lab" aria-label="Play Angle Lab: Move arms to make angles and sort shapes">
+          <div class="btn-icon" aria-hidden="true">🧪</div>
           <div class="btn-text">
             <span class="btn-title">Angle Lab</span>
             <span class="btn-subtitle">Move the arms to make your own angles!</span>
@@ -90,8 +144,8 @@
         </a>
 
         <!-- Button 2: Angle Quiz -->
-        <a href="quiz.html" class="nav-btn btn-quiz">
-          <div class="btn-icon">❓</div>
+        <a href="quiz.html" class="nav-btn btn-quiz" aria-label="Play Detective Quiz: Test your detective skills with fun questions">
+          <div class="btn-icon" aria-hidden="true">❓</div>
           <div class="btn-text">
             <span class="btn-title">Angle Quiz</span>
             <span class="btn-subtitle">Test your detective skills with fun questions!</span>
@@ -99,8 +153,8 @@
         </a>
 
         <!-- Button 3: Real-Life Angles -->
-        <a href="real-life.html" class="nav-btn btn-reallife">
-          <div class="btn-icon">🔍</div>
+        <a href="real-life.html" class="nav-btn btn-reallife" aria-label="Play Angles Around Us: Find hidden angles in everyday objects">
+          <div class="btn-icon" aria-hidden="true">🔍</div>
           <div class="btn-text">
             <span class="btn-title">Real-Life Angles</span>
             <span class="btn-subtitle">Find hidden angles in everyday objects!</span>
