@@ -718,6 +718,41 @@ body {
   pointer-events: none;
 }
 
+/* --------------------------------------------------------------------------
+   5c. TRIANGLE BUILDER SECTION STYLES
+   -------------------------------------------------------------------------- */
+.triangle-section {
+  margin-top: 2rem;
+}
+
+.triangle-visualizer-box {
+  width: 380px;
+  height: 380px;
+  max-width: 100%;
+}
+
+.triangle-polygon {
+  fill: rgba(52, 152, 219, 0.12);
+  stroke: #2c3e50;
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.triangle-angle-arc {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke 0.2s ease;
+}
+
+.triangle-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
 /* Mobile responsive styling for Sort section */
 @media (max-width: 768px) {
   .drop-boxes-container {

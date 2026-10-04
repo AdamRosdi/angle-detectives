@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     initSortAngles();
   }
 
+  // Initialize Triangle Builder logic if on lab.html page
+  if (document.getElementById('triangle-section')) {
+    initTriangleBuilder();
+  }
+
   // Initialize Quiz logic if on quiz.html page
   if (document.getElementById('options-grid')) {
     initAngleQuiz();
@@ -560,6 +565,251 @@ function initSortAngles() {
 
   // Initial Game Setup
   setupGame();
+}
+
+/* ============================================================================
+   SECTION 1c: TRIANGLE BUILDER INTERACTION
+   ============================================================================ */
+
+/**
+ * Interactive Triangle Builder with draggable vertices, coloured angle arcs,
+ * and live labels for angle types and triangle name.
+ */
+function initTriangleBuilder() {
+  const svg = document.getElementById('triangle-svg');
+  const polygon = document.getElementById('triangle-polygon');
+  const anglesLabel = document.getElementById('triangle-angles-label');
+  const nameLabel = document.getElementById('triangle-name-label');
+
+  if (!svg || !polygon) return;
+
+  const handles = [
+    document.getElementById('triangle-handle-0'),
+    document.getElementById('triangle-handle-1'),
+    document.getElementById('triangle-handle-2')
+  ];
+
+  const arcs = [
+    document.getElementById('triangle-arc-0'),
+    document.getElementById('triangle-arc-1'),
+    document.getElementById('triangle-arc-2')
+  ];
+
+  // Initial vertex coordinates
+  let pts = [
+    { x: 150, y: 50 },
+    { x: 60, y: 250 },
+    { x: 240, y: 250 }
+  ];
+
+  let activeHandleIndex = null;
+
+  const RIGHT_ANGLE_TOLERANCE = 3.5; // degrees tolerance for 90°
+
+  function distance(p1, p2) {
+    const dx = p2.x - p1.x;
+    const dy = p2.y - p1.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function updateTriangle() {
+    // 1. Update Polygon points
+    polygon.setAttribute(
+      'points',
+      pts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')
+    );
+
+    // 2. Update Handle positions
+    handles.forEach((h, i) => {
+      h.setAttribute('cx', pts[i].x.toFixed(1));
+      h.setAttribute('cy', pts[i].y.toFixed(1));
+    });
+
+    // Side lengths:
+    // s0 opposite vertex 0 (between pts[1] and pts[2])
+    // s1 opposite vertex 1 (between pts[0] and pts[2])
+    // s2 opposite vertex 2 (between pts[0] and pts[1])
+    const s0 = distance(pts[1], pts[2]);
+    const s1 = distance(pts[0], pts[2]);
+    const s2 = distance(pts[0], pts[1]);
+
+    const anglesDeg = [];
+
+    // 3. Draw interior arcs and calculate interior angles
+    for (let i = 0; i < 3; i++) {
+      const V = pts[i];
+      const U = pts[(i + 2) % 3]; // previous vertex
+      const W = pts[(i + 1) % 3]; // next vertex
+
+      const vuX = U.x - V.x;
+      const vuY = U.y - V.y;
+      const l1 = Math.sqrt(vuX * vuX + vuY * vuY);
+
+      const vwX = W.x - V.x;
+      const vwY = W.y - V.y;
+      const l2 = Math.sqrt(vwX * vwX + vwY * vwY);
+
+      const theta1 = Math.atan2(vuY, vuX);
+      const theta2 = Math.atan2(vwY, vwX);
+
+      // Angle calculation via dot product
+      let cosVal = (vuX * vwX + vuY * vwY) / (l1 * l2);
+      cosVal = Math.max(-1, Math.min(1, cosVal));
+      const deg = (Math.acos(cosVal) * 180) / Math.PI;
+      anglesDeg.push(deg);
+
+      // Arc radius capped by side lengths
+      const R = Math.max(12, Math.min(32, l1 * 0.3, l2 * 0.3));
+
+      const ax = V.x + R * Math.cos(theta1);
+      const ay = V.y + R * Math.sin(theta1);
+
+      const bx = V.x + R * Math.cos(theta2);
+      const by = V.y + R * Math.sin(theta2);
+
+      // Determine sweep flag via 2D cross product
+      const crossZ = vuX * vwY - vuY * vwX;
+      const sweepFlag = crossZ > 0 ? 1 : 0;
+
+      arcs[i].setAttribute(
+        'd',
+        `M ${ax.toFixed(1)},${ay.toFixed(1)} A ${R.toFixed(1)} ${R.toFixed(1)} 0 0 ${sweepFlag} ${bx.toFixed(1)},${by.toFixed(1)}`
+      );
+
+      // Set Arc stroke color based on angle type
+      let strokeColor = '';
+      if (Math.abs(deg - 90) <= RIGHT_ANGLE_TOLERANCE) {
+        strokeColor = '#2ecc71'; // Green for Right angle
+      } else if (deg < 90) {
+        strokeColor = '#3498db'; // Blue for Acute angle
+      } else {
+        strokeColor = '#f39c12'; // Orange for Obtuse angle
+      }
+      arcs[i].style.stroke = strokeColor;
+    }
+
+    // 4. Calculate Angle Types count
+    let numRight = 0;
+    let numAcute = 0;
+    let numObtuse = 0;
+
+    anglesDeg.forEach(deg => {
+      if (Math.abs(deg - 90) <= RIGHT_ANGLE_TOLERANCE) {
+        numRight++;
+      } else if (deg < 90) {
+        numAcute++;
+      } else {
+        numObtuse++;
+      }
+    });
+
+    // Format Angle Types Label
+    const angleParts = [];
+    if (numRight > 0) angleParts.push(`${numRight} right angle${numRight > 1 ? 's' : ''}`);
+    if (numObtuse > 0) angleParts.push(`${numObtuse} obtuse angle${numObtuse > 1 ? 's' : ''}`);
+    if (numAcute > 0) angleParts.push(`${numAcute} acute angle${numAcute > 1 ? 's' : ''}`);
+
+    anglesLabel.textContent = angleParts.join(', ');
+
+    // Color code angle badge according to dominant/special angle type
+    if (numRight > 0) {
+      anglesLabel.className = 'type-badge badge-green';
+    } else if (numObtuse > 0) {
+      anglesLabel.className = 'type-badge badge-orange';
+    } else {
+      anglesLabel.className = 'type-badge badge-blue';
+    }
+
+    // 5. Calculate Triangle Name based on side lengths & right angles
+    const maxSide = Math.max(s0, s1, s2);
+    const sideTolerance = Math.max(8, maxSide * 0.05);
+
+    function sidesEqual(lenA, lenB) {
+      return Math.abs(lenA - lenB) <= sideTolerance;
+    }
+
+    const eq01 = sidesEqual(s0, s1);
+    const eq12 = sidesEqual(s1, s2);
+    const eq02 = sidesEqual(s0, s2);
+
+    const isEquilateral = eq01 && eq12 && eq02;
+    const isIsosceles = eq01 || eq12 || eq02;
+    const hasRightAngle = numRight > 0;
+
+    let triName = '';
+    if (isEquilateral) {
+      triName = 'Equilateral';
+    } else if (hasRightAngle) {
+      triName = 'Right-angled';
+    } else if (isIsosceles) {
+      triName = 'Isosceles';
+    } else {
+      triName = 'Scalene';
+    }
+
+    nameLabel.textContent = triName;
+    nameLabel.className = hasRightAngle ? 'type-badge badge-green' : 'type-badge badge-blue';
+  }
+
+  // Pointer interaction for dragging handles
+  function getSVGPoint(e) {
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+    return pt.matrixTransform(svg.getScreenCTM().inverse());
+  }
+
+  handles.forEach((handle, idx) => {
+    handle.addEventListener('pointerdown', e => {
+      activeHandleIndex = idx;
+      handle.setPointerCapture(e.pointerId);
+    });
+
+    handle.addEventListener('pointermove', e => {
+      if (activeHandleIndex !== idx) return;
+
+      const svgPt = getSVGPoint(e);
+
+      // Keep handles strictly inside SVG area [16, 284]
+      let newX = Math.max(16, Math.min(284, svgPt.x));
+      let newY = Math.max(16, Math.min(284, svgPt.y));
+
+      // Prevent handles from getting closer than 25px to each other
+      const otherIndices = [0, 1, 2].filter(i => i !== idx);
+      const minDistance = 25;
+
+      let valid = true;
+      for (const oIdx of otherIndices) {
+        const d = Math.sqrt(
+          (newX - pts[oIdx].x) ** 2 + (newY - pts[oIdx].y) ** 2
+        );
+        if (d < minDistance) {
+          valid = false;
+          break;
+        }
+      }
+
+      if (valid) {
+        pts[idx] = { x: newX, y: newY };
+        updateTriangle();
+      }
+    });
+
+    const handlePointerEnd = e => {
+      if (activeHandleIndex === idx) {
+        activeHandleIndex = null;
+        try {
+          handle.releasePointerCapture(e.pointerId);
+        } catch (err) {}
+      }
+    };
+
+    handle.addEventListener('pointerup', handlePointerEnd);
+    handle.addEventListener('pointercancel', handlePointerEnd);
+  });
+
+  // Initial draw
+  updateTriangle();
 }
 
 /* ============================================================================
