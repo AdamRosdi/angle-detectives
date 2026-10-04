@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angle Detectives</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Header Navigation -->
+  <header class="site-header">
+    <div class="header-content">
+      <h1 class="logo">🔍 Angle Detectives</h1>
+      <p class="tagline">Become an Angle Detective and investigate shapes!</p>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- Welcome Hero Banner -->
+    <section class="hero-card">
+      <h2>Hello, Detective! 👋</h2>
+      <p>An <strong>angle</strong> is formed when two straight lines meet at a point (called a vertex). Look out for these 3 main types of angles:</p>
+    </section>
+
+    <!-- Visual Guide Section -->
+    <section class="angle-guide">
+
+      <!-- Right Angle Card (Green) -->
+      <div class="guide-card right-angle">
+        <div class="badge">Square Corner</div>
+        <h3>Right Angle</h3>
+        <div class="angle-visual-box">
+          <svg viewBox="0 0 100 100" class="angle-svg">
+            <path d="M 20,20 L 20,80 L 80,80" class="angle-line green-stroke" />
+            <rect x="20" y="60" width="20" height="20" class="square-marker green-stroke" />
+            <circle cx="20" cy="80" r="4" class="vertex-dot" />
+          </svg>
+        </div>
+        <p class="angle-deg">Exactly <strong>90°</strong></p>
+        <p class="description">Looks like the letter <strong>L</strong> or the corner of a book!</p>
+      </div>
+
+      <!-- Acute Angle Card (Blue) -->
+      <div class="guide-card acute-angle">
+        <div class="badge">Small & Sharp</div>
+        <h3>Acute Angle</h3>
+        <div class="angle-visual-box">
+          <svg viewBox="0 0 100 100" class="angle-svg">
+            <path d="M 60,25 L 20,80 L 80,80" class="angle-line blue-stroke" />
+            <path d="M 35,80 A 15 15 0 0 0 30,66" class="arc-marker blue-stroke" />
+            <circle cx="20" cy="80" r="4" class="vertex-dot" />
+          </svg>
+        </div>
+        <p class="angle-deg">Smaller than <strong>90°</strong></p>
+        <p class="description">Cute and small! Think of a slice of pizza or a bird's beak.</p>
+      </div>
+
+      <!-- Obtuse Angle Card (Orange) -->
+      <div class="guide-card obtuse-angle">
+        <div class="badge">Big & Wide</div>
+        <h3>Obtuse Angle</h3>
+        <div class="angle-visual-box">
+          <svg viewBox="0 0 100 100" class="angle-svg">
+            <path d="M 5,30 L 40,80 L 95,80" class="angle-line orange-stroke" />
+            <path d="M 55,80 A 15 15 0 0 0 26,60" class="arc-marker orange-stroke" />
+            <circle cx="40" cy="80" r="4" class="vertex-dot" />
+          </svg>
+        </div>
+        <p class="angle-deg">Between <strong>90°</strong> and <strong>180°</strong></p>
+        <p class="description">Wide open! Like a fan or a roof of a house.</p>
+      </div>
+
+    </section>
+
+    <!-- Main Navigation Action Buttons -->
+    <section class="navigation-section">
+      <h2 class="section-title">Choose Your Mission!</h2>
+      <div class="large-buttons-grid">
+
+        <!-- Button 1: Angle Lab -->
+        <a href="lab.html" class="nav-btn btn-lab">
+          <div class="btn-icon">🧪</div>
+          <div class="btn-text">
+            <span class="btn-title">Angle Lab</span>
+            <span class="btn-subtitle">Move the arms to make your own angles!</span>
+          </div>
+        </a>
+
+        <!-- Button 2: Angle Quiz -->
+        <a href="quiz.html" class="nav-btn btn-quiz">
+          <div class="btn-icon">❓</div>
+          <div class="btn-text">
+            <span class="btn-title">Angle Quiz</span>
+            <span class="btn-subtitle">Test your detective skills with fun questions!</span>
+          </div>
+        </a>
+
+        <!-- Button 3: Real-Life Angles -->
+        <a href="real-life.html" class="nav-btn btn-reallife">
+          <div class="btn-icon">🔍</div>
+          <div class="btn-text">
+            <span class="btn-title">Real-Life Angles</span>
+            <span class="btn-subtitle">Find hidden angles in everyday objects!</span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>Angle Detectives - Fun Maths for Year 4 Pupils</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

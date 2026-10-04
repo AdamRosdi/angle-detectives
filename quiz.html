@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angle Quiz - Angle Detectives</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header Navigation -->
+  <header class="site-header">
+    <div class="header-content">
+      <a href="index.html" class="back-link">⬅ Back to Home</a>
+      <h1 class="logo">❓ Angle Quiz</h1>
+      <p class="tagline">Test your detective skills and solve the angle cases!</p>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <section class="quiz-card">
+
+      <!-- Quiz Top Bar (Score & Progress) -->
+      <div class="quiz-status-bar">
+        <div class="status-item">
+          <span>Question:</span>
+          <strong id="quiz-progress">1 / 5</strong>
+        </div>
+        <div class="status-item">
+          <span>Score:</span>
+          <strong id="quiz-score" class="score-highlight">0 pts</strong>
+        </div>
+      </div>
+
+      <!-- Question Container -->
+      <div id="question-container" class="question-container">
+        <h2 id="question-title" class="question-title">What type of angle is shown here?</h2>
+
+        <!-- SVG Visual Box -->
+        <div class="quiz-visual-box" id="quiz-visual-box">
+          <!-- Dynamic SVG populated by JS -->
+        </div>
+
+        <p id="question-prompt" class="question-prompt">Select the correct answer:</p>
+
+        <!-- Options Buttons -->
+        <div class="options-grid" id="options-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Feedback Box -->
+        <div id="quiz-feedback" class="quiz-feedback hidden">
+          <div id="feedback-text" class="feedback-text"></div>
+          <button id="next-btn" class="action-btn next-btn">Next Question ➔</button>
+        </div>
+      </div>
+
+      <!-- Quiz Complete Screen -->
+      <div id="quiz-complete" class="quiz-complete hidden">
+        <div class="trophy-icon">🏆</div>
+        <h2>Great Job, Detective!</h2>
+        <p class="final-score-text">You scored <span id="final-score-text">0</span> out of 5!</p>
+        <div id="final-badge-text" class="badge-result">Super Detective Badge Earned!</div>
+        <div class="quiz-actions">
+          <button id="restart-quiz-btn" class="action-btn btn-restart">Play Again 🔄</button>
+          <a href="index.html" class="action-btn btn-home">Back to Home 🏠</a>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Angle Detectives - Fun Maths for Year 4 Pupils</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

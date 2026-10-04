@@ -1,0 +1,4 @@
+node_modules/
+*.png
+server.log
+test_screenshots.js
