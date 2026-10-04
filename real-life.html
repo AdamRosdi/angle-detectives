@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real-Life Angles - Angle Detectives</title>
+  <title>Angles Around Us - Angle Detectives</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,111 +11,328 @@
   <!-- Header Navigation -->
   <header class="site-header">
     <div class="header-content">
-      <a href="index.html" class="back-link">⬅ Back to Home</a>
-      <h1 class="logo">🔍 Real-Life Angles</h1>
-      <p class="tagline">Look around! Angles are hiding everywhere in our everyday world!</p>
+      <a href="index.html" class="back-link">🏠 Home</a>
+      <h1 class="logo">🔍 Angles Around Us</h1>
+      <p class="tagline">Explore the classroom and playground to find hidden angles!</p>
     </div>
   </header>
 
   <!-- Main Container -->
   <main class="container">
 
-    <section class="reallife-hero">
-      <h2>Everyday Angle Detective Hunt</h2>
-      <p>Click on each real-life object to reveal its hidden angle!</p>
-    </section>
+    <!-- Game Card -->
+    <section class="game-card">
 
-    <!-- Real Life Items Grid -->
-    <section class="reallife-grid">
-
-      <!-- Item 1: Book Corner -->
-      <div class="reallife-card right-border" data-type="right">
-        <div class="reallife-icon">📖</div>
-        <h3>Book Corner</h3>
-        <p class="reallife-desc">Look at the corner of a book or notebook.</p>
-        <div class="angle-visual-box mini">
-          <svg viewBox="0 0 100 100" class="angle-svg">
-            <path d="M 30,20 L 30,80 L 80,80" class="angle-line green-stroke" />
-            <rect x="30" y="60" width="20" height="20" class="square-marker green-stroke" />
-          </svg>
+      <div class="game-header">
+        <div class="game-instructions">
+          <h2>Find All Hidden Angles!</h2>
+          <p>Tap on the pulsing circles in the scene to inspect hidden angles in everyday objects.</p>
         </div>
-        <div class="type-badge badge-green">Right Angle (90°)</div>
+
+        <div class="counter-box">
+          <span class="counter-icon">🔍</span>
+          <span class="counter-text">Angles found: <strong id="angles-found-count">0</strong> / <strong id="angles-total-count">6</strong></span>
+        </div>
       </div>
 
-      <!-- Item 2: Clock Hands at 3 o'clock -->
-      <div class="reallife-card right-border" data-type="right">
-        <div class="reallife-icon">🕒</div>
-        <h3>Clock at 3:00</h3>
-        <p class="reallife-desc">The hour hand and minute hand make an L shape!</p>
-        <div class="angle-visual-box mini">
-          <svg viewBox="0 0 100 100" class="angle-svg">
-            <circle cx="50" cy="50" r="40" fill="none" stroke="#64748b" stroke-width="3" />
-            <path d="M 50,20 L 50,50 L 80,50" class="angle-line green-stroke" />
-            <rect x="50" y="35" width="15" height="15" class="square-marker green-stroke" />
-          </svg>
-        </div>
-        <div class="type-badge badge-green">Right Angle (90°)</div>
-      </div>
+      <!-- Interactive SVG Scene -->
+      <div class="scene-container" id="scene-container">
+        <svg viewBox="0 0 900 550" id="reallife-svg" class="scene-svg" aria-label="Classroom and Playground scene containing hidden angles">
+          <defs>
+            <!-- Background Gradients -->
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#87CEEB"/>
+              <stop offset="100%" stop-color="#E0F6FF"/>
+            </linearGradient>
+            <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFF5E4"/>
+              <stop offset="100%" stop-color="#FFE3BB"/>
+            </linearGradient>
+            <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#72BF78"/>
+              <stop offset="100%" stop-color="#387F39"/>
+            </linearGradient>
+            <linearGradient id="floorGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#D2B48C"/>
+              <stop offset="100%" stop-color="#A67B5B"/>
+            </linearGradient>
+            <linearGradient id="roofGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E76F51"/>
+              <stop offset="100%" stop-color="#264653"/>
+            </linearGradient>
+          </defs>
 
-      <!-- Item 3: Slice of Pizza -->
-      <div class="reallife-card acute-border" data-type="acute">
-        <div class="reallife-icon">🍕</div>
-        <h3>Slice of Pizza</h3>
-        <p class="reallife-desc">The tip of a slice of pizza is sharp and narrow.</p>
-        <div class="angle-visual-box mini">
-          <svg viewBox="0 0 100 100" class="angle-svg">
-            <path d="M 70,30 L 20,80 L 80,70" class="angle-line blue-stroke" />
-            <path d="M 35,80 A 15 15 0 0 0 35,66" class="arc-marker blue-stroke" />
-          </svg>
-        </div>
-        <div class="type-badge badge-blue">Acute Angle (&lt; 90°)</div>
-      </div>
+          <!-- ================= BACKGROUND ================= -->
+          <!-- Left: Classroom Wall -->
+          <rect x="0" y="0" width="450" height="380" fill="url(#wallGrad)" />
+          <!-- Left: Classroom Floor -->
+          <rect x="0" y="380" width="450" height="170" fill="url(#floorGrad)" />
+          <!-- Baseboard dividing wall and floor -->
+          <rect x="0" y="372" width="450" height="12" fill="#8B5A2B" />
 
-      <!-- Item 4: Scissors Open -->
-      <div class="reallife-card acute-border" data-type="acute">
-        <div class="reallife-icon">✂️</div>
-        <h3>Open Scissors</h3>
-        <p class="reallife-desc">When slightly open, scissor blades form a small angle.</p>
-        <div class="angle-visual-box mini">
-          <svg viewBox="0 0 100 100" class="angle-svg">
-            <path d="M 75,25 L 20,80 L 85,60" class="angle-line blue-stroke" />
-            <path d="M 35,80 A 15 15 0 0 0 32,68" class="arc-marker blue-stroke" />
-          </svg>
-        </div>
-        <div class="type-badge badge-blue">Acute Angle (&lt; 90°)</div>
-      </div>
+          <!-- Right: Playground Sky -->
+          <rect x="450" y="0" width="450" height="380" fill="url(#skyGrad)" />
+          <!-- Sun in playground sky -->
+          <circle cx="820" cy="70" r="35" fill="#FFD700" />
+          <!-- Clouds -->
+          <path d="M 500,80 Q 515,60 535,70 Q 555,60 575,75 Q 585,90 565,100 L 510,100 Z" fill="#FFFFFF" opacity="0.9"/>
+          <path d="M 680,100 Q 695,85 715,95 Q 735,85 750,100 L 670,100 Z" fill="#FFFFFF" opacity="0.8"/>
+          <!-- Right: Playground Grass -->
+          <rect x="450" y="380" width="450" height="170" fill="url(#grassGrad)" />
 
-      <!-- Item 5: Open Beach Umbrella / Fan -->
-      <div class="reallife-card obtuse-border" data-type="obtuse">
-        <div class="reallife-icon">🪭</div>
-        <h3>Hand Fan</h3>
-        <p class="reallife-desc">An opened fan spans wide across!</p>
-        <div class="angle-visual-box mini">
-          <svg viewBox="0 0 100 100" class="angle-svg">
-            <path d="M 10,35 L 50,80 L 95,45" class="angle-line orange-stroke" />
-            <path d="M 62,67 A 20 20 0 0 0 38,66" class="arc-marker orange-stroke" />
-          </svg>
-        </div>
-        <div class="type-badge badge-orange">Obtuse Angle (&gt; 90°)</div>
-      </div>
+          <!-- Dividing Wall / Doorway Frame between Classroom & Playground -->
+          <rect x="440" y="0" width="20" height="550" fill="#5D4037" />
+          <rect x="445" y="0" width="10" height="550" fill="#3E2723" />
+          <!-- Door arch sign -->
+          <rect x="30" y="15" width="150" height="35" rx="8" fill="#4A6572" />
+          <text x="105" y="38" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">🏫 CLASSROOM</text>
 
-      <!-- Item 6: House Roof -->
-      <div class="reallife-card obtuse-border" data-type="obtuse">
-        <div class="reallife-icon">🏠</div>
-        <h3>Roof Top</h3>
-        <p class="reallife-desc">Most house roofs slant wide to let rain slide off.</p>
-        <div class="angle-visual-box mini">
-          <svg viewBox="0 0 100 100" class="angle-svg">
-            <path d="M 10,60 L 50,25 L 90,60" class="angle-line orange-stroke" />
-            <path d="M 60,34 A 15 15 0 0 1 40,34" class="arc-marker orange-stroke" />
-          </svg>
-        </div>
-        <div class="type-badge badge-orange">Obtuse Angle (&gt; 90°)</div>
+          <rect x="670" y="15" width="160" height="35" rx="8" fill="#2E7D32" />
+          <text x="750" y="38" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF" text-anchor="middle">🛝 PLAYGROUND</text>
+
+
+          <!-- ================= OBJECT 1: WINDOW FRAME (Classroom - Right Angle) ================= -->
+          <g id="obj-window">
+            <!-- Window Outer Frame -->
+            <rect x="190" y="70" width="160" height="130" fill="#E0F7FA" stroke="#37474F" stroke-width="8" rx="4" />
+            <!-- Inner Glass Panes -->
+            <line x1="270" y1="70" x2="270" y2="200" stroke="#37474F" stroke-width="6" />
+            <line x1="190" y1="135" x2="350" y2="135" stroke="#37474F" stroke-width="6" />
+            <!-- Window Sill -->
+            <rect x="180" y="200" width="180" height="12" fill="#263238" rx="3" />
+            <!-- Outdoor view through window -->
+            <circle cx="230" cy="100" r="15" fill="#FFD700" opacity="0.6"/>
+            <path d="M 280,180 L 310,135 L 340,180 Z" fill="#81C784" opacity="0.7"/>
+            <!-- Highlighted Angle Lines on top-left outer corner -->
+            <path id="path-window" d="M 190,130 L 190,70 L 250,70" fill="none" stroke="#2ECC71" stroke-width="5" stroke-linecap="round" />
+            <rect x="190" y="70" width="20" height="20" fill="rgba(46, 204, 113, 0.25)" stroke="#2ECC71" stroke-width="2" />
+            <text x="210" y="115" font-family="Comic Sans MS, sans-serif" font-size="14" font-weight="bold" fill="#1B5E20">Window Corner</text>
+          </g>
+
+
+          <!-- ================= OBJECT 2: BOOK CORNER (Classroom Table - Right Angle) ================= -->
+          <g id="obj-book">
+            <!-- Table in Classroom -->
+            <ellipse cx="140" cy="420" rx="110" ry="40" fill="#D7CCC8" stroke="#5D4037" stroke-width="5" />
+            <rect x="60" y="420" width="16" height="90" fill="#5D4037" />
+            <rect x="204" y="420" width="16" height="90" fill="#5D4037" />
+            <!-- Book lying on Table -->
+            <polygon points="70,400 150,380 170,420 90,440" fill="#42A5F5" stroke="#1565C0" stroke-width="3" />
+            <!-- Pages lines -->
+            <polygon points="73,403 147,384 147,388 73,407" fill="#FFFFFF" />
+            <!-- Book Cover details -->
+            <text x="110" y="415" font-family="Comic Sans MS, sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF" transform="rotate(-14, 110, 415)">MATHS</text>
+            <!-- Highlighted Angle Lines on Book Top-Left Corner (70, 400) -->
+            <path id="path-book" d="M 150,380 L 70,400 L 90,440" fill="none" stroke="#2ECC71" stroke-width="5" stroke-linecap="round" />
+            <text x="80" y="375" font-family="Comic Sans MS, sans-serif" font-size="14" font-weight="bold" fill="#1B5E20">Book Corner</text>
+          </g>
+
+
+          <!-- ================= OBJECT 3: PIZZA SLICE (Classroom Desk - Acute Angle) ================= -->
+          <g id="obj-pizza">
+            <!-- Small Desk -->
+            <rect x="290" y="360" width="120" height="70" fill="#BCAAA4" stroke="#4E342E" stroke-width="4" rx="6" />
+            <rect x="300" y="430" width="12" height="80" fill="#4E342E" />
+            <rect x="388" y="430" width="12" height="80" fill="#4E342E" />
+            <!-- Plate -->
+            <ellipse cx="350" cy="390" rx="42" ry="25" fill="#ECEFF1" stroke="#CFD8DC" stroke-width="3" />
+            <!-- Pizza Slice (Sharp acute tip pointing downwards at (350, 405)) -->
+            <path d="M 350,405 L 322,372 A 32 18 0 0 1 378,372 Z" fill="#FFB74D" stroke="#E65100" stroke-width="2" />
+            <!-- Crust -->
+            <path d="M 320,372 A 34 18 0 0 1 380,372" fill="none" stroke="#D84315" stroke-width="6" stroke-linecap="round" />
+            <!-- Toppings -->
+            <circle cx="340" cy="382" r="4" fill="#C62828" />
+            <circle cx="360" cy="384" r="4" fill="#C62828" />
+            <circle cx="350" cy="376" r="3" fill="#2E7D32" />
+            <!-- Highlighted Angle Lines at Pizza Tip (350, 405) -->
+            <path id="path-pizza" d="M 322,372 L 350,405 L 378,372" fill="none" stroke="#3498DB" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+            <text x="315" y="425" font-family="Comic Sans MS, sans-serif" font-size="14" font-weight="bold" fill="#0D47A1">Pizza Tip</text>
+          </g>
+
+
+          <!-- ================= OBJECT 4: OPEN SCISSORS (Classroom Wall/Shelf - Acute Angle) ================= -->
+          <g id="obj-scissors">
+            <!-- Wall Shelf -->
+            <rect x="40" y="220" width="120" height="14" fill="#8D6E63" stroke="#4E342E" stroke-width="2" rx="3" />
+            <!-- Scissors lying on shelf -->
+            <!-- Handles -->
+            <circle cx="65" cy="190" r="10" fill="none" stroke="#E53935" stroke-width="5" />
+            <circle cx="65" cy="212" r="10" fill="none" stroke="#E53935" stroke-width="5" />
+            <!-- Pivot Screw -->
+            <circle cx="95" cy="201" r="3" fill="#37474F" />
+            <!-- Blades extending out at an acute angle from (95,201) to (145,188) and (145,214) -->
+            <path d="M 65,190 L 95,201 L 145,188" fill="none" stroke="#B0BEC5" stroke-width="4" stroke-linecap="round" />
+            <path d="M 65,212 L 95,201 L 145,214" fill="none" stroke="#B0BEC5" stroke-width="4" stroke-linecap="round" />
+            <!-- Highlighted Angle Lines on Scissors Blades -->
+            <path id="path-scissors" d="M 145,188 L 95,201 L 145,214" fill="none" stroke="#3498DB" stroke-width="5" stroke-linecap="round" />
+            <text x="55" y="165" font-family="Comic Sans MS, sans-serif" font-size="14" font-weight="bold" fill="#0D47A1">Scissors</text>
+          </g>
+
+
+          <!-- ================= OBJECT 5: PLAYHOUSE ROOF (Playground - Obtuse Angle) ================= -->
+          <g id="obj-roof">
+            <!-- Playhouse Main Body -->
+            <rect x="520" y="250" width="200" height="160" fill="#FFF8E1" stroke="#FF8F00" stroke-width="5" rx="4" />
+            <!-- Door -->
+            <rect x="590" y="320" width="45" height="90" fill="#8D6E63" stroke="#4E342E" stroke-width="3" rx="2" />
+            <circle cx="625" cy="365" r="4" fill="#FFD54F" />
+            <!-- Windows on house -->
+            <rect x="540" y="280" width="35" height="35" fill="#E0F7FA" stroke="#FF8F00" stroke-width="3" />
+            <rect x="660" y="280" width="35" height="35" fill="#E0F7FA" stroke="#FF8F00" stroke-width="3" />
+            <!-- Playhouse Roof (Apex at (620, 160), left eave (490, 250), right eave (750, 250)) -->
+            <!-- Wide Obtuse Roof Angle at Apex (620, 160) -->
+            <polygon points="490,250 620,160 750,250" fill="url(#roofGrad)" stroke="#264653" stroke-width="4" />
+            <!-- Highlighted Angle Lines at Roof Peak (620, 160) -->
+            <path id="path-roof" d="M 490,250 L 620,160 L 750,250" fill="none" stroke="#F39C12" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            <text x="575" y="145" font-family="Comic Sans MS, sans-serif" font-size="14" font-weight="bold" fill="#E65100">Roof Peak</text>
+          </g>
+
+
+          <!-- ================= OBJECT 6: LADDER (Playground - Acute Angle) ================= -->
+          <g id="obj-ladder">
+            <!-- Climbing Wall / Slide Platform on right -->
+            <rect x="780" y="220" width="100" height="210" fill="#A1887F" stroke="#4E342E" stroke-width="4" />
+            <!-- Slide -->
+            <path d="M 780,260 Q 750,380 710,430 L 730,430 Q 770,390 790,280 Z" fill="#E53935" />
+            <!-- Ladder leaning against structure: top at (780, 250), bottom ground at (860, 430) -->
+            <!-- Main rails -->
+            <line x1="775" y1="240" x2="855" y2="430" stroke="#00838F" stroke-width="6" stroke-linecap="round" />
+            <line x1="790" y1="235" x2="870" y2="425" stroke="#00838F" stroke-width="6" stroke-linecap="round" />
+            <!-- Rungs -->
+            <line x1="780" y1="260" x2="794" y2="255" stroke="#00ACC1" stroke-width="4" />
+            <line x1="795" y1="295" x2="809" y2="290" stroke="#00ACC1" stroke-width="4" />
+            <line x1="810" y1="330" x2="824" y2="325" stroke="#00ACC1" stroke-width="4" />
+            <line x1="825" y1="365" x2="839" y2="360" stroke="#00ACC1" stroke-width="4" />
+            <line x1="840" y1="400" x2="854" y2="395" stroke="#00ACC1" stroke-width="4" />
+            <!-- Ground Line -->
+            <line x1="760" y1="430" x2="890" y2="430" stroke="#387F39" stroke-width="4" />
+            <!-- Highlighted Angle Lines between Ladder and Ground at (855, 430) -->
+            <path id="path-ladder" d="M 775,240 L 855,430 L 890,430" fill="none" stroke="#3498DB" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+            <text x="800" y="455" font-family="Comic Sans MS, sans-serif" font-size="14" font-weight="bold" fill="#0D47A1">Ladder Base</text>
+          </g>
+
+
+          <!-- ================= PULSING TARGET SPOTS (PUPILS TAP THESE) ================= -->
+          <!-- Spot 1: Window Corner (190, 70) -->
+          <g class="pulse-spot-group" data-spot="window" transform="translate(190, 70)" role="button" aria-label="Tap to inspect window angle">
+            <circle class="pulse-ring" cx="0" cy="0" r="22" />
+            <circle class="spot-center" cx="0" cy="0" r="14" />
+            <text class="spot-icon" x="0" y="5" text-anchor="middle">🔍</text>
+          </g>
+
+          <!-- Spot 2: Book Corner (70, 400) -->
+          <g class="pulse-spot-group" data-spot="book" transform="translate(70, 400)" role="button" aria-label="Tap to inspect book angle">
+            <circle class="pulse-ring" cx="0" cy="0" r="22" />
+            <circle class="spot-center" cx="0" cy="0" r="14" />
+            <text class="spot-icon" x="0" y="5" text-anchor="middle">🔍</text>
+          </g>
+
+          <!-- Spot 3: Pizza Tip (350, 405) -->
+          <g class="pulse-spot-group" data-spot="pizza" transform="translate(350, 405)" role="button" aria-label="Tap to inspect pizza angle">
+            <circle class="pulse-ring" cx="0" cy="0" r="22" />
+            <circle class="spot-center" cx="0" cy="0" r="14" />
+            <text class="spot-icon" x="0" y="5" text-anchor="middle">🔍</text>
+          </g>
+
+          <!-- Spot 4: Open Scissors (95, 201) -->
+          <g class="pulse-spot-group" data-spot="scissors" transform="translate(95, 201)" role="button" aria-label="Tap to inspect scissors angle">
+            <circle class="pulse-ring" cx="0" cy="0" r="22" />
+            <circle class="spot-center" cx="0" cy="0" r="14" />
+            <text class="spot-icon" x="0" y="5" text-anchor="middle">🔍</text>
+          </g>
+
+          <!-- Spot 5: Playhouse Roof Peak (620, 160) -->
+          <g class="pulse-spot-group" data-spot="roof" transform="translate(620, 160)" role="button" aria-label="Tap to inspect roof angle">
+            <circle class="pulse-ring" cx="0" cy="0" r="22" />
+            <circle class="spot-center" cx="0" cy="0" r="14" />
+            <text class="spot-icon" x="0" y="5" text-anchor="middle">🔍</text>
+          </g>
+
+          <!-- Spot 6: Ladder Base (855, 430) -->
+          <g class="pulse-spot-group" data-spot="ladder" transform="translate(855, 430)" role="button" aria-label="Tap to inspect ladder angle">
+            <circle class="pulse-ring" cx="0" cy="0" r="22" />
+            <circle class="spot-center" cx="0" cy="0" r="14" />
+            <text class="spot-icon" x="0" y="5" text-anchor="middle">🔍</text>
+          </g>
+
+        </svg>
       </div>
 
     </section>
 
   </main>
+
+  <!-- ================= POP-UP MODAL QUESTION DIALOG ================= -->
+  <div id="angle-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card">
+
+      <button id="modal-close-btn" class="modal-close-x" aria-label="Close modal">&times;</button>
+
+      <div class="modal-header">
+        <span id="modal-object-icon" class="modal-icon">📖</span>
+        <h3 id="modal-title">Book Corner</h3>
+      </div>
+
+      <!-- Close-up Visual of the Angle -->
+      <div class="modal-visual-box" id="modal-visual-box">
+        <!-- Injected dynamically via JS -->
+      </div>
+
+      <!-- Question Prompt -->
+      <p class="modal-question">What type of angle is this?</p>
+
+      <!-- 3 Answer Buttons -->
+      <div class="modal-options-grid">
+        <button class="modal-opt-btn btn-right-angle" data-answer="right">
+          <span class="opt-badge badge-green">Square Corner</span>
+          <span class="opt-text">Right Angle</span>
+        </button>
+
+        <button class="modal-opt-btn btn-acute-angle" data-answer="acute">
+          <span class="opt-badge badge-blue">Small & Sharp</span>
+          <span class="opt-text">Acute Angle</span>
+        </button>
+
+        <button class="modal-opt-btn btn-obtuse-angle" data-answer="obtuse">
+          <span class="opt-badge badge-orange">Big & Wide</span>
+          <span class="opt-text">Obtuse Angle</span>
+        </button>
+      </div>
+
+      <!-- Feedback Area -->
+      <div id="modal-feedback" class="modal-feedback hidden">
+        <p id="feedback-explanation" class="modal-feedback-text"></p>
+        <button id="modal-next-btn" class="action-btn next-btn">Continue ➔</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= FINAL REFLECTION SCREEN / MODAL ================= -->
+  <div id="completion-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="completion-title">
+    <div class="modal-card completion-card">
+
+      <div class="completion-header">
+        <div class="trophy-icon">🌟</div>
+        <h2 id="completion-title">Well done!</h2>
+        <p class="completion-subtitle">You found all 6 hidden angles in the classroom and playground!</p>
+      </div>
+
+      <!-- Reflection Box -->
+      <div class="reflection-box">
+        <h3>Reflection Question 💭</h3>
+        <label for="reflection-input" class="reflection-label">Where else do you see these angles at home?</label>
+        <textarea id="reflection-input" class="reflection-textarea" rows="4" placeholder="For example: the corner of my television, a slice of cake, or an opened door..."></textarea>
+        <p class="reflection-note"><em>Note: Your ideas are for your own reflection (no data saved).</em></p>
+      </div>
+
+      <div class="completion-actions">
+        <button id="play-again-btn" class="action-btn btn-restart">Play Again 🔄</button>
+        <a href="index.html" class="action-btn btn-home">🏠 Back to Home</a>
+      </div>
+
+    </div>
+  </div>
 
   <footer class="site-footer">
     <p>Angle Detectives - Fun Maths for Year 4 Pupils</p>
